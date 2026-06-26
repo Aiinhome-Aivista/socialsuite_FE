@@ -17,7 +17,7 @@ export function clearToken() {
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const token = getToken();
-  
+
   const isFormData = options.body instanceof FormData;
   const headers: HeadersInit = {
     ...(!isFormData && options.body ? { "Content-Type": "application/json" } : {}),
@@ -59,14 +59,14 @@ export const api = {
     return new Promise((resolve, reject) => {
       const token = getToken();
       const xhr = new XMLHttpRequest();
-      
+
       xhr.upload.onprogress = (event) => {
         if (event.lengthComputable && onProgress) {
           const percent = Math.round((event.loaded / event.total) * 100);
           onProgress(percent);
         }
       };
-      
+
       xhr.onload = () => {
         if (xhr.status >= 200 && xhr.status < 300) {
           try {
@@ -84,14 +84,14 @@ export const api = {
           }
         }
       };
-      
+
       xhr.onerror = () => reject(new Error("Network error"));
-      
+
       xhr.open("POST", `${BASE}/media/upload`);
       if (token) {
         xhr.setRequestHeader("Authorization", `Bearer ${token}`);
       }
-      
+
       const formData = new FormData();
       formData.append("file", file);
       xhr.send(formData);
@@ -104,6 +104,8 @@ export const api = {
     request<{ hashtags: string[] }>("/ai/hashtags", { method: "POST", body: JSON.stringify(data) }),
   autoFill: (data: any) =>
     request<{ caption: string, hashtags: string[] }>("/ai/auto_fill", { method: "POST", body: JSON.stringify(data) }),
+  analyzeAccount: (data: any) =>
+    request<any>("/ai/analyze", { method: "POST", body: JSON.stringify(data) }),
 
   listPosts: (orgId: number) => request<any[]>(`/posts?org_id=${orgId}`),
   createPost: (data: any) =>

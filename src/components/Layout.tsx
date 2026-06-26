@@ -1,6 +1,6 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import {
-  LayoutDashboard, PenSquare, Calendar, Plug, BarChart3, LogOut,
+  LayoutDashboard, PenSquare, Calendar, Plug, BarChart3, LogOut, Sparkles
 } from "lucide-react";
 import { clearToken } from "../lib/api";
 
@@ -10,6 +10,7 @@ const nav = [
   { to: "/calendar", label: "Calendar", icon: Calendar },
   { to: "/connectors", label: "Connectors", icon: Plug },
   { to: "/analytics", label: "Analytics", icon: BarChart3 },
+  { to: "/ai-analysis", label: "AI Analyze", icon: Sparkles },
 ];
 
 export default function Layout() {

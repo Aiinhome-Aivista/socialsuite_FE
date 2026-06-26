@@ -9,6 +9,7 @@ import Composer from "./pages/Composer";
 import Calendar from "./pages/Calendar";
 import Connectors from "./pages/Connectors";
 import Analytics from "./pages/Analytics";
+import AIAnalysis from "./pages/AIAnalysis";
 
 function RequireAuth({ children }: { children: React.ReactNode }) {
   return getToken() ? <>{children}</> : <Navigate to="/login" replace />;
@@ -32,6 +33,7 @@ export default function App() {
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/connectors" element={<Connectors />} />
           <Route path="/analytics" element={<Analytics />} />
+          <Route path="/ai-analysis" element={<AIAnalysis />} />
         </Route>
       </Routes>
       <Toaster 
