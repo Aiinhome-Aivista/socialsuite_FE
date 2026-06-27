@@ -4,6 +4,26 @@ import { Sparkles, Mail, Lock, Building, ArrowRight, AlertCircle, ArrowLeft } fr
 import toast from "react-hot-toast";
 import { api, setToken } from "../lib/api";
 
+// --- Validation helpers ---
+function validateEmail(email: string): string {
+  if (!email) return "Email is required.";
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) return "Please enter a valid email address.";
+  return "";
+}
+
+function validatePassword(password: string, isRegister: boolean): string {
+  if (!password) return "Password is required.";
+  if (password.length < 8) return "Password must be at least 8 characters.";
+  if (isRegister) {
+    if (!/[A-Z]/.test(password)) return "Password must include an uppercase letter.";
+    if (!/[a-z]/.test(password)) return "Password must include a lowercase letter.";
+    if (!/[0-9]/.test(password)) return "Password must include a number.";
+    if (!/[^A-Za-z0-9]/.test(password)) return "Password must include a special character.";
+  }
+  return "";
+}
+
 export default function Login() {
   const navigate = useNavigate();
   const [mode, setMode] = useState<"login" | "register">("login");
@@ -13,13 +33,41 @@ export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Field-level errors
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  // Track whether user has interacted with a field (blur = touched)
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [passwordTouched, setPasswordTouched] = useState(false);
+
+  function handleEmailChange(value: string) {
+    setEmail(value);
+    if (emailTouched) setEmailError(validateEmail(value));
+  }
+
+  function handlePasswordChange(value: string) {
+    setPassword(value);
+    if (passwordTouched) setPasswordError(validatePassword(value, mode === "register"));
+  }
+
   async function submit(e?: React.FormEvent) {
     if (e) e.preventDefault();
-    if (!email || !password || (mode === "register" && !orgName)) {
-      setError("Please fill in all fields.");
+
+    // Run validations
+    const eErr = validateEmail(email);
+    const pErr = validatePassword(password, mode === "register");
+    setEmailError(eErr);
+    setPasswordError(pErr);
+    setEmailTouched(true);
+    setPasswordTouched(true);
+
+    if (eErr || pErr) return;
+
+    if (mode === "register" && !orgName.trim()) {
+      setError("Please enter a workspace name.");
       return;
     }
-    
+
     setError("");
     setLoading(true);
     
@@ -41,6 +89,12 @@ export default function Login() {
       setLoading(false);
     }
   }
+
+  // Shared input classes — adds red border when there's a validation error
+  const inputBase =
+    "w-full rounded-xl bg-white/50 pl-10 pr-4 py-3 text-sm font-medium text-gray-900 shadow-sm outline-none transition-all placeholder:text-gray-400";
+  const inputNormal = `${inputBase} border border-gray-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10`;
+  const inputError = `${inputBase} border-2 border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-500/10`;
 
   return (
     <div className="min-h-screen bg-neutral-50 overflow-hidden relative font-sans flex items-center justify-center p-4">
@@ -75,38 +129,59 @@ export default function Login() {
                     value={orgName}
                     onChange={(e) => setOrgName(e.target.value)}
                     placeholder="e.g. Acme Corp"
-                    className="w-full rounded-xl border border-gray-200 bg-white/50 pl-10 pr-4 py-3 text-sm font-medium text-gray-900 shadow-sm outline-none transition-all focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 placeholder:text-gray-400"
+                    className={inputNormal}
                   />
                 </div>
               </div>
             )}
             
+            {/* Email Field */}
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Email Address</label>
               <div className="relative">
-                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Mail className={`absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 ${emailError ? "text-red-400" : "text-gray-400"}`} />
                 <input
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => handleEmailChange(e.target.value)}
+                  onBlur={() => { setEmailTouched(true); setEmailError(validateEmail(email)); }}
                   placeholder="you@example.com"
-                  className="w-full rounded-xl border border-gray-200 bg-white/50 pl-10 pr-4 py-3 text-sm font-medium text-gray-900 shadow-sm outline-none transition-all focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 placeholder:text-gray-400"
+                  className={emailError ? inputError : inputNormal}
                 />
               </div>
+              {emailError && (
+                <p className="mt-1.5 flex items-center gap-1 text-xs font-medium text-red-500">
+                  <AlertCircle className="h-3 w-3 shrink-0" />
+                  {emailError}
+                </p>
+              )}
             </div>
 
+            {/* Password Field */}
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Password</label>
               <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Lock className={`absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 ${passwordError ? "text-red-400" : "text-gray-400"}`} />
                 <input
                   type="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => handlePasswordChange(e.target.value)}
+                  onBlur={() => { setPasswordTouched(true); setPasswordError(validatePassword(password, mode === "register")); }}
                   placeholder="••••••••"
-                  className="w-full rounded-xl border border-gray-200 bg-white/50 pl-10 pr-4 py-3 text-sm font-medium text-gray-900 shadow-sm outline-none transition-all focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 placeholder:text-gray-400"
+                  className={passwordError ? inputError : inputNormal}
                 />
               </div>
+              {passwordError && (
+                <p className="mt-1.5 flex items-center gap-1 text-xs font-medium text-red-500">
+                  <AlertCircle className="h-3 w-3 shrink-0" />
+                  {passwordError}
+                </p>
+              )}
+              {mode === "register" && !passwordError && (
+                <p className="mt-1.5 text-xs text-gray-400">
+                  Min 8 characters with uppercase, lowercase, number &amp; special character.
+                </p>
+              )}
             </div>
 
             {error && (
@@ -141,6 +216,10 @@ export default function Login() {
               onClick={() => {
                 setMode(mode === "login" ? "register" : "login");
                 setError("");
+                setEmailError("");
+                setPasswordError("");
+                setEmailTouched(false);
+                setPasswordTouched(false);
               }}
               className="font-bold text-indigo-600 hover:text-indigo-500 transition-colors"
             >
@@ -152,3 +231,4 @@ export default function Login() {
     </div>
   );
 }
+
