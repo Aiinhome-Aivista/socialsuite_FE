@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { TrendingUp, Users, Heart, Eye, BarChart3, Activity } from "lucide-react";
+import { TrendingUp, Users, Heart, Eye, BarChart3, Activity, Send } from "lucide-react";
 import { api } from "../lib/api";
 import { useOrg } from "../lib/useOrg";
 
@@ -8,15 +8,16 @@ export default function Analytics() {
   const [data, setData] = useState<any>(null);
 
   useEffect(() => {
-    if (orgId) api.analyticsSummary(orgId).then(setData).catch(() => {});
+    if (orgId) api.analyticsSummary(orgId).then(setData).catch(() => { });
   }, [orgId]);
 
   const accounts = data?.accounts || [];
-  
+
   // Calculate aggregates
   const totalFollowers = accounts.reduce((acc: number, cur: any) => acc + (cur.followers || 0), 0);
   const totalLikes = accounts.reduce((acc: number, cur: any) => acc + (cur.likes || 0), 0);
   const totalImpressions = accounts.reduce((acc: number, cur: any) => acc + (cur.impressions || 0), 0);
+  const totalPosts = accounts.reduce((acc: number, cur: any) => acc + (cur.posts_count || 0), 0);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 transition-all duration-500 ease-in-out opacity-100 translate-y-0">
@@ -38,7 +39,22 @@ export default function Analytics() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="bg-white/80 rounded-3xl p-6 shadow-xl shadow-indigo-900/5 border border-indigo-50 backdrop-blur-xl relative overflow-hidden group">
+          <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity duration-300">
+            <Send className="w-24 h-24" />
+          </div>
+          <div className="flex items-center gap-4 mb-4">
+            <div className="p-3 bg-indigo-50 text-indigo-600 rounded-2xl">
+              <Send className="w-6 h-6" />
+            </div>
+            <h3 className="font-semibold text-gray-600">Total Posts</h3>
+          </div>
+          <p className="text-4xl font-bold text-gray-900 tracking-tight">
+            {totalPosts.toLocaleString()}
+          </p>
+        </div>
+
         <div className="bg-white/80 rounded-3xl p-6 shadow-xl shadow-indigo-900/5 border border-indigo-50 backdrop-blur-xl relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity duration-300">
             <Users className="w-24 h-24" />
