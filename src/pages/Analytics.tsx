@@ -99,6 +99,7 @@ export default function Analytics() {
               <tr>
                 <th className="px-6 py-4 rounded-tl-xl">Account</th>
                 <th className="px-6 py-4">Platform</th>
+                <th className="px-6 py-4 text-right">Posts</th>
                 <th className="px-6 py-4 text-right">Followers</th>
                 <th className="px-6 py-4 text-right">Likes</th>
                 <th className="px-6 py-4 text-right rounded-tr-xl">Impressions</th>
@@ -116,6 +117,9 @@ export default function Analytics() {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right font-medium text-gray-700">
+                    {(a.posts_count || 0).toLocaleString()}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-right font-medium text-gray-700">
                     {(a.followers || 0).toLocaleString()}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right font-medium text-gray-700">
@@ -128,7 +132,7 @@ export default function Analytics() {
               ))}
               {!accounts.length && (
                 <tr>
-                  <td className="px-6 py-12 text-center text-gray-400" colSpan={5}>
+                  <td className="px-6 py-12 text-center text-gray-400" colSpan={6}>
                     <div className="flex flex-col items-center justify-center gap-3">
                       <BarChart3 className="w-10 h-10 text-gray-300" />
                       <p className="text-base font-medium text-gray-500">No analytics data available yet</p>
