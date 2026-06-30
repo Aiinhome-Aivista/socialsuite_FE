@@ -198,7 +198,7 @@ export default function Login() {
                   <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
                 ) : (
                   <>
-                    <span className="relative z-10">{mode === "login" ? "Sign In" : "Create Workspace"}</span>
+                    <span className="relative z-10">{mode === "login" ? "Sign In" : "Sign Up"}</span>
                     <ArrowRight className="relative z-10 h-4 w-4" />
                   </>
                 )}
