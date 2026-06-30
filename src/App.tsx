@@ -10,6 +10,10 @@ import Calendar from "./pages/Calendar";
 import Connectors from "./pages/Connectors";
 import Analytics from "./pages/Analytics";
 import AIAnalysis from "./pages/AIAnalysis";
+import Pricing from "./pages/Pricing"; 
+import PrivacyPolicy from "./pages/Privacypolicy";
+import Terms from "./pages/Terms";
+import CookiePolicy from "./pages/Cookiepolicy";
 
 function RequireAuth({ children }: { children: React.ReactNode }) {
   return getToken() ? <>{children}</> : <Navigate to="/login" replace />;
@@ -21,6 +25,10 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/cookie-policy" element={<CookiePolicy />} />
         <Route
           element={
             <RequireAuth>
