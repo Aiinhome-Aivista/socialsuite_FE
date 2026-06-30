@@ -115,10 +115,8 @@ export const api = {
   listPosts: (orgId: number) => request<any[]>(`/posts?org_id=${orgId}`),
   createPost: (data: any) =>
     request<any>("/posts", { method: "POST", body: JSON.stringify(data) }),
-  reschedule: (postId: number, scheduledAt: string) =>
-    request<any>(`/posts/${postId}/reschedule?scheduled_at=${encodeURIComponent(scheduledAt)}`, {
-      method: "PATCH",
-    }),
+  deletePost: (postId: number) =>
+    request<any>(`/posts/${postId}`, { method: "DELETE" }),
 
   analyticsSummary: (orgId: number) => request<any>(`/analytics/summary?org_id=${orgId}`),
 };

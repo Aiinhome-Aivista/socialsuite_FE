@@ -20,17 +20,36 @@ export default function Calendar() {
             id: String(p.id),
             title: p.body?.slice(0, 30) || "(untitled)",
             start: p.scheduled_at,
+            extendedProps: { status: p.status },
+            backgroundColor: p.status === "published" ? "#10b981" : undefined,
+            borderColor: p.status === "published" ? "#059669" : undefined,
           }))
       );
     });
   }, [orgId]);
 
-  async function onEventDrop(info: any) {
-    try {
-      await api.reschedule(Number(info.event.id), info.event.start.toISOString());
-    } catch (e: any) {
-      alert(e.message);
-      info.revert();
+
+  async function onEventClick(info: any) {
+    const status = info.event.extendedProps.status;
+    const start = info.event.start;
+    
+    if (status !== 'scheduled') {
+      alert(`Cannot delete a post that is ${status}.`);
+      return;
+    }
+
+    if (start && new Date(start) < new Date()) {
+      alert("Cannot delete a post whose scheduled time has passed.");
+      return;
+    }
+
+    if (window.confirm("Are you sure you want to delete this scheduled post?")) {
+      try {
+        await api.deletePost(Number(info.event.id));
+        info.event.remove();
+      } catch (e: any) {
+        alert(e.message);
+      }
     }
   }
 
@@ -58,9 +77,9 @@ export default function Calendar() {
           <FullCalendar
             plugins={[dayGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
-            editable={true}
+            editable={false}
             events={events}
-            eventDrop={onEventDrop}
+            eventClick={onEventClick}
             height="auto"
             headerToolbar={{
               left: 'prev,next today',

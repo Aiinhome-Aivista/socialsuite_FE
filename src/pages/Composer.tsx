@@ -268,10 +268,26 @@ export default function Composer() {
           <div className="grid gap-8 md:grid-cols-2">
             {/* Platforms */}
             <div>
-              <label className="mb-3 flex items-center gap-2 text-sm font-bold text-neutral-800">
-                <CheckCircle className="h-4 w-4 text-neutral-500" />
-                Publish To
-              </label>
+              <div className="mb-3 flex items-center justify-between">
+                <label className="flex items-center gap-2 text-sm font-bold text-neutral-800">
+                  <CheckCircle className="h-4 w-4 text-neutral-500" />
+                  Publish To
+                </label>
+                {accounts.length > 0 && (
+                  <button
+                    onClick={() => {
+                      if (selected.length === accounts.length) {
+                        setSelected([]);
+                      } else {
+                        setSelected(accounts.map((a) => a.id));
+                      }
+                    }}
+                    className="text-xs font-bold text-indigo-600 hover:text-indigo-700 hover:underline transition-colors"
+                  >
+                    {selected.length === accounts.length ? "Deselect All" : "Select All"}
+                  </button>
+                )}
+              </div>
               <div className="flex flex-col gap-2.5">
                 {accounts.length === 0 && (
                   <div className="rounded-xl border border-neutral-100 bg-neutral-50 p-5 text-center">
