@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "../lib/api";
 import { useOrg } from "../lib/useOrg";
-import { Users, Heart, Eye, Activity, TrendingUp, BarChart3, Youtube, Facebook, Instagram, Twitter } from "lucide-react";
+import { Users, Heart, Eye, Activity, TrendingUp, BarChart3, Youtube, Facebook, Instagram, Twitter, Linkedin } from "lucide-react";
 import {
   XAxis,
   YAxis,
@@ -72,6 +72,7 @@ export default function Dashboard() {
       case 'instagram': return <Instagram className="h-5 w-5 text-pink-600" />;
       case 'x': return <Twitter className="h-5 w-5 text-neutral-800" />;
       case 'pinterest': return <PinterestIcon className="h-5 w-5 text-red-600" />;
+      case 'linkedin': return <Linkedin className="h-5 w-5 text-blue-700" />;
       default: return <Activity className="h-5 w-5 text-neutral-500" />;
     }
   };

@@ -47,6 +47,11 @@ export const api = {
       method: "POST",
       body: JSON.stringify(data),
     }),
+  googleLogin: (data: { credential: string }) =>
+    request<{ access_token: string }>("/auth/google", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
   me: () => request<any>("/auth/me"),
 
   listConnectors: (orgId: number) => request<any[]>(`/connectors?org_id=${orgId}`),

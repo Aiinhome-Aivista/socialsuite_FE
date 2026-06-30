@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Sparkles, Mail, Lock, Building, ArrowRight, AlertCircle, ArrowLeft } from "lucide-react";
+import { Sparkles, Mail, Lock, Building, ArrowRight, AlertCircle, ArrowLeft, RefreshCw, ShieldCheck } from "lucide-react";
 import toast from "react-hot-toast";
 import { api, setToken } from "../lib/api";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 
 // --- Validation helpers ---
 function validateEmail(email: string): string {
@@ -24,21 +25,49 @@ function validatePassword(password: string, isRegister: boolean): string {
   return "";
 }
 
+function validateCaptcha(input: string, code: string): string {
+  if (!input) return "Security code is required.";
+  if (input !== code) return "Incorrect security code.";
+  return "";
+}
+
 export default function Login() {
   const navigate = useNavigate();
   const [mode, setMode] = useState<"login" | "register">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [orgName, setOrgName] = useState("My Workspace");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   // Field-level errors
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [captchaError, setCaptchaError] = useState("");
+  
   // Track whether user has interacted with a field (blur = touched)
   const [emailTouched, setEmailTouched] = useState(false);
   const [passwordTouched, setPasswordTouched] = useState(false);
+  const [captchaTouched, setCaptchaTouched] = useState(false);
+
+  // Captcha state
+  const [captchaCode, setCaptchaCode] = useState("");
+  const [captchaInput, setCaptchaInput] = useState("");
+
+  function generateCaptcha() {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < 6; i++) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    setCaptchaCode(result);
+    setCaptchaInput("");
+    setCaptchaError("");
+    setCaptchaTouched(false);
+  }
+
+  useEffect(() => {
+    generateCaptcha();
+  }, []);
 
   function handleEmailChange(value: string) {
     setEmail(value);
@@ -50,27 +79,32 @@ export default function Login() {
     if (passwordTouched) setPasswordError(validatePassword(value, mode === "register"));
   }
 
+  function handleCaptchaChange(value: string) {
+    setCaptchaInput(value);
+    if (captchaTouched) setCaptchaError(validateCaptcha(value, captchaCode));
+  }
+
   async function submit(e?: React.FormEvent) {
     if (e) e.preventDefault();
 
     // Run validations
     const eErr = validateEmail(email);
     const pErr = validatePassword(password, mode === "register");
+    const cErr = validateCaptcha(captchaInput, captchaCode);
+    
     setEmailError(eErr);
     setPasswordError(pErr);
+    setCaptchaError(cErr);
+    
     setEmailTouched(true);
     setPasswordTouched(true);
+    setCaptchaTouched(true);
 
-    if (eErr || pErr) return;
-
-    if (mode === "register" && !orgName.trim()) {
-      setError("Please enter a workspace name.");
-      return;
-    }
+    if (eErr || pErr || cErr) return;
 
     setError("");
     setLoading(true);
-    
+
     try {
       if (mode === "login") {
         const res = await api.login({ email, password });
@@ -78,157 +112,223 @@ export default function Login() {
         toast.success("Login successful!");
         navigate("/dashboard");
       } else {
-        await api.register({ email, password, organization_name: orgName });
+        await api.register({ email, password, organization_name: "My Workspace" });
         toast.success("Workspace created successfully! Please sign in.");
         setMode("login");
         setPassword("");
+        generateCaptcha();
       }
     } catch (err: any) {
       setError(err.message || "An error occurred");
+      generateCaptcha();
     } finally {
       setLoading(false);
     }
   }
 
-  // Shared input classes — adds red border when there's a validation error
+  async function handleGoogleSuccess(credentialResponse: any) {
+    if (!credentialResponse.credential) return;
+    try {
+      setLoading(true);
+      const res = await api.googleLogin({ credential: credentialResponse.credential });
+      setToken(res.access_token);
+      toast.success("Login successful!");
+      navigate("/dashboard");
+    } catch (err: any) {
+      setError(err.message || "Google sign-in failed");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // Shared input classes
   const inputBase =
     "w-full rounded-xl bg-white/50 pl-10 pr-4 py-3 text-sm font-medium text-gray-900 shadow-sm outline-none transition-all placeholder:text-gray-400";
   const inputNormal = `${inputBase} border border-gray-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10`;
   const inputError = `${inputBase} border-2 border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-500/10`;
 
   return (
-    <div className="min-h-screen bg-neutral-50 overflow-hidden relative font-sans flex items-center justify-center p-4">
-      {/* Background Orbs */}
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-indigo-500/20 rounded-full blur-[120px] -translate-y-1/2 pointer-events-none"></div>
-      <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-purple-500/20 rounded-full blur-[150px] translate-y-1/3 pointer-events-none"></div>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || ""}>
+      <div className="min-h-screen bg-neutral-50 overflow-hidden relative font-sans flex items-center justify-center p-4">
+        {/* Background Orbs */}
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-indigo-500/20 rounded-full blur-[120px] -translate-y-1/2 pointer-events-none"></div>
+        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-purple-500/20 rounded-full blur-[150px] translate-y-1/3 pointer-events-none"></div>
 
-      {/* Back to Home */}
-      <Link to="/" className="absolute top-8 left-8 flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-indigo-600 transition-colors z-20 bg-white/50 backdrop-blur-md px-4 py-2 rounded-full border border-gray-200 shadow-sm hover:shadow-md">
-        <ArrowLeft className="w-4 h-4" /> Back to Home
-      </Link>
+        {/* Back to Home */}
+        <Link to="/" className="absolute top-8 left-8 flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-indigo-600 transition-colors z-20 bg-white/50 backdrop-blur-md px-4 py-2 rounded-full border border-gray-200 shadow-sm hover:shadow-md">
+          <ArrowLeft className="w-4 h-4" /> Back to Home
+        </Link>
 
-      <div className="w-full max-w-md relative z-10 animate-in fade-in slide-in-from-bottom-8 duration-700">
-        <div className="text-center mb-8 flex flex-col items-center">
-          <div className="p-3 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl shadow-lg shadow-indigo-500/30 mb-4 inline-flex">
-            <Sparkles className="h-8 w-8 text-white" />
+        <div className="w-full max-w-md relative z-10 animate-in fade-in slide-in-from-bottom-8 duration-700">
+          <div className="text-center mb-8 flex flex-col items-center">
+            <div className="p-3 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl shadow-lg shadow-indigo-500/30 mb-4 inline-flex">
+              <Sparkles className="h-8 w-8 text-white" />
+            </div>
+            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">SocialSuite</h1>
+            <p className="mt-2 text-sm text-gray-500 font-medium">
+              {mode === "login" ? "Welcome back! Please enter your details." : "Create your workspace and get started."}
+            </p>
           </div>
-          <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">SocialSuite</h1>
-          <p className="mt-2 text-sm text-gray-500 font-medium">
-            {mode === "login" ? "Welcome back! Please enter your details." : "Create your workspace and get started."}
-          </p>
-        </div>
 
-        <div className="bg-white/80 backdrop-blur-xl rounded-3xl border border-white p-8 shadow-xl shadow-indigo-900/5 transition-all">
-          <form onSubmit={submit} className="space-y-4">
-            {mode === "register" && (
+          <div className="bg-white/80 backdrop-blur-xl rounded-3xl border border-white p-8 shadow-xl shadow-indigo-900/5 transition-all">
+            <form onSubmit={submit} className="space-y-4">
+
+              {/* Email Field */}
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Workspace Name</label>
+                <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Email Address</label>
                 <div className="relative">
-                  <Building className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Mail className={`absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 ${emailError ? "text-red-400" : "text-gray-400"}`} />
                   <input
-                    value={orgName}
-                    onChange={(e) => setOrgName(e.target.value)}
-                    placeholder="e.g. Acme Corp"
-                    className={inputNormal}
+                    type="email"
+                    value={email}
+                    onChange={(e) => handleEmailChange(e.target.value)}
+                    onBlur={() => { setEmailTouched(true); setEmailError(validateEmail(email)); }}
+                    placeholder="you@example.com"
+                    className={emailError ? inputError : inputNormal}
                   />
                 </div>
+                {emailError && (
+                  <p className="mt-1.5 flex items-center gap-1 text-xs font-medium text-red-500">
+                    <AlertCircle className="h-3 w-3 shrink-0" />
+                    {emailError}
+                  </p>
+                )}
               </div>
-            )}
-            
-            {/* Email Field */}
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Email Address</label>
-              <div className="relative">
-                <Mail className={`absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 ${emailError ? "text-red-400" : "text-gray-400"}`} />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => handleEmailChange(e.target.value)}
-                  onBlur={() => { setEmailTouched(true); setEmailError(validateEmail(email)); }}
-                  placeholder="you@example.com"
-                  className={emailError ? inputError : inputNormal}
-                />
+
+              {/* Password Field */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Password</label>
+                <div className="relative">
+                  <Lock className={`absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 ${passwordError ? "text-red-400" : "text-gray-400"}`} />
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => handlePasswordChange(e.target.value)}
+                    onBlur={() => { setPasswordTouched(true); setPasswordError(validatePassword(password, mode === "register")); }}
+                    placeholder="••••••••"
+                    className={passwordError ? inputError : inputNormal}
+                  />
+                </div>
+                {passwordError && (
+                  <p className="mt-1.5 flex items-center gap-1 text-xs font-medium text-red-500">
+                    <AlertCircle className="h-3 w-3 shrink-0" />
+                    {passwordError}
+                  </p>
+                )}
+                {mode === "register" && !passwordError && (
+                  <p className="mt-1.5 text-xs text-gray-400">
+                    Min 8 characters with uppercase, lowercase, number &amp; special character.
+                  </p>
+                )}
               </div>
-              {emailError && (
-                <p className="mt-1.5 flex items-center gap-1 text-xs font-medium text-red-500">
-                  <AlertCircle className="h-3 w-3 shrink-0" />
-                  {emailError}
-                </p>
+
+              {/* Captcha Field */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Security Code</label>
+                
+                <div className="flex gap-3 mb-3">
+                  <div className="flex-1 bg-gradient-to-r from-gray-100 to-gray-200 rounded-xl flex items-center justify-center relative overflow-hidden select-none border border-gray-300 shadow-inner h-11">
+                    {/* Captcha Noise Background */}
+                    <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '10px 10px' }}></div>
+                    {/* Captcha Text */}
+                    <span className="text-2xl font-bold tracking-[0.3em] text-gray-700 italic relative z-10" style={{ textDecoration: 'line-through decoration-gray-400 decoration-2' }}>
+                      {captchaCode}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={generateCaptcha}
+                    className="h-11 px-4 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors shadow-sm flex items-center justify-center"
+                    title="Refresh Captcha"
+                  >
+                    <RefreshCw className="w-5 h-5 text-gray-500" />
+                  </button>
+                </div>
+                
+                <div className="relative">
+                  <ShieldCheck className={`absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 ${captchaError ? "text-red-400" : "text-gray-400"}`} />
+                  <input
+                    type="text"
+                    value={captchaInput}
+                    onChange={(e) => handleCaptchaChange(e.target.value)}
+                    onBlur={() => { setCaptchaTouched(true); setCaptchaError(validateCaptcha(captchaInput, captchaCode)); }}
+                    placeholder="Enter the code above"
+                    className={captchaError ? inputError : inputNormal}
+                    autoComplete="off"
+                  />
+                </div>
+                {captchaError && (
+                  <p className="mt-1.5 flex items-center gap-1 text-xs font-medium text-red-500">
+                    <AlertCircle className="h-3 w-3 shrink-0" />
+                    {captchaError}
+                  </p>
+                )}
+              </div>
+
+              {error && (
+                <div className="flex items-center gap-2 rounded-xl bg-red-50 p-3 text-sm font-medium text-red-600 border border-red-100">
+                  <AlertCircle className="h-4 w-4 shrink-0" />
+                  {error}
+                </div>
               )}
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-gray-900 px-6 py-3.5 text-sm font-bold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-gray-900/20 disabled:opacity-70 disabled:hover:translate-y-0 mt-6"
+              >
+                <div className="absolute inset-0 bg-white/10 translate-y-full transition-transform group-hover:translate-y-0"></div>
+                {loading ? (
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                ) : (
+                  <>
+                    <span className="relative z-10">{mode === "login" ? "Sign In" : "Sign Up"}</span>
+                    <ArrowRight className="relative z-10 h-4 w-4" />
+                  </>
+                )}
+              </button>
+            </form>
+
+            <div className="mt-6 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-gray-300 after:mt-0.5 after:flex-1 after:border-t after:border-gray-300">
+              <p className="mx-4 mb-0 text-center font-semibold text-gray-500">OR</p>
             </div>
 
-            {/* Password Field */}
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Password</label>
-              <div className="relative">
-                <Lock className={`absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 ${passwordError ? "text-red-400" : "text-gray-400"}`} />
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => handlePasswordChange(e.target.value)}
-                  onBlur={() => { setPasswordTouched(true); setPasswordError(validatePassword(password, mode === "register")); }}
-                  placeholder="••••••••"
-                  className={passwordError ? inputError : inputNormal}
-                />
-              </div>
-              {passwordError && (
-                <p className="mt-1.5 flex items-center gap-1 text-xs font-medium text-red-500">
-                  <AlertCircle className="h-3 w-3 shrink-0" />
-                  {passwordError}
-                </p>
-              )}
-              {mode === "register" && !passwordError && (
-                <p className="mt-1.5 text-xs text-gray-400">
-                  Min 8 characters with uppercase, lowercase, number &amp; special character.
-                </p>
-              )}
+            <div className="mt-6 flex justify-center">
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={() => setError("Google sign-in was unsuccessful.")}
+                useOneTap
+                theme="outline"
+                size="large"
+                shape="pill"
+              />
             </div>
+          </div>
 
-            {error && (
-              <div className="flex items-center gap-2 rounded-xl bg-red-50 p-3 text-sm font-medium text-red-600 border border-red-100">
-                <AlertCircle className="h-4 w-4 shrink-0" />
-                {error}
-              </div>
-            )}
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-gray-900 px-6 py-3.5 text-sm font-bold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-gray-900/20 disabled:opacity-70 disabled:hover:translate-y-0 mt-6"
-            >
-              <div className="absolute inset-0 bg-white/10 translate-y-full transition-transform group-hover:translate-y-0"></div>
-              {loading ? (
-                <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
-              ) : (
-                <>
-                  <span className="relative z-10">{mode === "login" ? "Sign In" : "Create Workspace"}</span>
-                  <ArrowRight className="relative z-10 h-4 w-4" />
-                </>
-              )}
-            </button>
-          </form>
-        </div>
-
-        <div className="mt-8 text-center">
-          <p className="text-sm font-medium text-gray-500">
-            {mode === "login" ? "Don't have an account?" : "Already have an account?"}{" "}
-            <button
-              onClick={() => {
-                setMode(mode === "login" ? "register" : "login");
-                setError("");
-                setEmailError("");
-                setPasswordError("");
-                setEmailTouched(false);
-                setPasswordTouched(false);
-              }}
-              className="font-bold text-indigo-600 hover:text-indigo-500 transition-colors"
-            >
-              {mode === "login" ? "Register here" : "Sign in here"}
-            </button>
-          </p>
+          <div className="mt-8 text-center">
+            <p className="text-sm font-medium text-gray-500">
+              {mode === "login" ? "Don't have an account?" : "Already have an account?"}{" "}
+              <button
+                onClick={() => {
+                  setMode(mode === "login" ? "register" : "login");
+                  setError("");
+                  setEmailError("");
+                  setPasswordError("");
+                  setCaptchaError("");
+                  setEmailTouched(false);
+                  setPasswordTouched(false);
+                  setCaptchaTouched(false);
+                  generateCaptcha();
+                }}
+                className="font-bold text-indigo-600 hover:text-indigo-500 transition-colors"
+              >
+                {mode === "login" ? "Register here" : "Sign in here"}
+              </button>
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </GoogleOAuthProvider>
   );
 }
 
