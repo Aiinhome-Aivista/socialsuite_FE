@@ -34,7 +34,7 @@ export default function Layout() {
         </div>
         
         <nav className="flex-1 space-y-1 overflow-y-auto custom-scrollbar pr-1">
-          <div className="px-3 text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-2 mt-4">Menu</div>
+          {/* <div className="px-3 text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-2 mt-4">Menu</div> */}
           {nav.map(({ to, label, icon: Icon }) => (
             <NavLink
               key={to}

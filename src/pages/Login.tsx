@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Sparkles, Mail, Lock, Building, ArrowRight, AlertCircle, ArrowLeft } from "lucide-react";
+import { Sparkles, Mail, Lock, Building, ArrowRight, AlertCircle, ArrowLeft, RefreshCw, ShieldCheck } from "lucide-react";
 import toast from "react-hot-toast";
 import { api, setToken } from "../lib/api";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
@@ -25,6 +25,12 @@ function validatePassword(password: string, isRegister: boolean): string {
   return "";
 }
 
+function validateCaptcha(input: string, code: string): string {
+  if (!input) return "Security code is required.";
+  if (input !== code) return "Incorrect security code.";
+  return "";
+}
+
 export default function Login() {
   const navigate = useNavigate();
   const [mode, setMode] = useState<"login" | "register">("login");
@@ -36,9 +42,32 @@ export default function Login() {
   // Field-level errors
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [captchaError, setCaptchaError] = useState("");
+  
   // Track whether user has interacted with a field (blur = touched)
   const [emailTouched, setEmailTouched] = useState(false);
   const [passwordTouched, setPasswordTouched] = useState(false);
+  const [captchaTouched, setCaptchaTouched] = useState(false);
+
+  // Captcha state
+  const [captchaCode, setCaptchaCode] = useState("");
+  const [captchaInput, setCaptchaInput] = useState("");
+
+  function generateCaptcha() {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < 6; i++) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    setCaptchaCode(result);
+    setCaptchaInput("");
+    setCaptchaError("");
+    setCaptchaTouched(false);
+  }
+
+  useEffect(() => {
+    generateCaptcha();
+  }, []);
 
   function handleEmailChange(value: string) {
     setEmail(value);
@@ -50,18 +79,28 @@ export default function Login() {
     if (passwordTouched) setPasswordError(validatePassword(value, mode === "register"));
   }
 
+  function handleCaptchaChange(value: string) {
+    setCaptchaInput(value);
+    if (captchaTouched) setCaptchaError(validateCaptcha(value, captchaCode));
+  }
+
   async function submit(e?: React.FormEvent) {
     if (e) e.preventDefault();
 
     // Run validations
     const eErr = validateEmail(email);
     const pErr = validatePassword(password, mode === "register");
+    const cErr = validateCaptcha(captchaInput, captchaCode);
+    
     setEmailError(eErr);
     setPasswordError(pErr);
+    setCaptchaError(cErr);
+    
     setEmailTouched(true);
     setPasswordTouched(true);
+    setCaptchaTouched(true);
 
-    if (eErr || pErr) return;
+    if (eErr || pErr || cErr) return;
 
     setError("");
     setLoading(true);
@@ -77,9 +116,11 @@ export default function Login() {
         toast.success("Workspace created successfully! Please sign in.");
         setMode("login");
         setPassword("");
+        generateCaptcha();
       }
     } catch (err: any) {
       setError(err.message || "An error occurred");
+      generateCaptcha();
     } finally {
       setLoading(false);
     }
@@ -100,7 +141,7 @@ export default function Login() {
     }
   }
 
-  // Shared input classes — adds red border when there's a validation error
+  // Shared input classes
   const inputBase =
     "w-full rounded-xl bg-white/50 pl-10 pr-4 py-3 text-sm font-medium text-gray-900 shadow-sm outline-none transition-all placeholder:text-gray-400";
   const inputNormal = `${inputBase} border border-gray-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10`;
@@ -181,6 +222,49 @@ export default function Login() {
                 )}
               </div>
 
+              {/* Captcha Field */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Security Code</label>
+                
+                <div className="flex gap-3 mb-3">
+                  <div className="flex-1 bg-gradient-to-r from-gray-100 to-gray-200 rounded-xl flex items-center justify-center relative overflow-hidden select-none border border-gray-300 shadow-inner h-11">
+                    {/* Captcha Noise Background */}
+                    <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '10px 10px' }}></div>
+                    {/* Captcha Text */}
+                    <span className="text-2xl font-bold tracking-[0.3em] text-gray-700 italic relative z-10" style={{ textDecoration: 'line-through decoration-gray-400 decoration-2' }}>
+                      {captchaCode}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={generateCaptcha}
+                    className="h-11 px-4 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors shadow-sm flex items-center justify-center"
+                    title="Refresh Captcha"
+                  >
+                    <RefreshCw className="w-5 h-5 text-gray-500" />
+                  </button>
+                </div>
+                
+                <div className="relative">
+                  <ShieldCheck className={`absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 ${captchaError ? "text-red-400" : "text-gray-400"}`} />
+                  <input
+                    type="text"
+                    value={captchaInput}
+                    onChange={(e) => handleCaptchaChange(e.target.value)}
+                    onBlur={() => { setCaptchaTouched(true); setCaptchaError(validateCaptcha(captchaInput, captchaCode)); }}
+                    placeholder="Enter the code above"
+                    className={captchaError ? inputError : inputNormal}
+                    autoComplete="off"
+                  />
+                </div>
+                {captchaError && (
+                  <p className="mt-1.5 flex items-center gap-1 text-xs font-medium text-red-500">
+                    <AlertCircle className="h-3 w-3 shrink-0" />
+                    {captchaError}
+                  </p>
+                )}
+              </div>
+
               {error && (
                 <div className="flex items-center gap-2 rounded-xl bg-red-50 p-3 text-sm font-medium text-red-600 border border-red-100">
                   <AlertCircle className="h-4 w-4 shrink-0" />
@@ -230,8 +314,11 @@ export default function Login() {
                   setError("");
                   setEmailError("");
                   setPasswordError("");
+                  setCaptchaError("");
                   setEmailTouched(false);
                   setPasswordTouched(false);
+                  setCaptchaTouched(false);
+                  generateCaptcha();
                 }}
                 className="font-bold text-indigo-600 hover:text-indigo-500 transition-colors"
               >
