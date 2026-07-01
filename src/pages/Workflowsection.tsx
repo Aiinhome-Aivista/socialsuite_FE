@@ -20,7 +20,7 @@ import {
 
 function Mockup({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative rounded-3xl overflow-hidden border border-white/50 shadow-xl shadow-indigo-900/5 h-full aspect-[4/3]">
+    <div className="relative rounded-3xl overflow-hidden border border-white/50 shadow-xl shadow-indigo-900/5 w-full h-[180px] sm:h-[220px] md:h-[250px]">
       {children}
     </div>
   );
