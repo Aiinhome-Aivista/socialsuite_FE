@@ -18,7 +18,7 @@ export default function Landing() {
 
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-neutral-50/80 backdrop-blur-md border-b border-gray-200/60 animate-in fade-in slide-in-from-top-4 duration-500">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 py-2.5 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="p-2 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl shadow-lg shadow-indigo-500/30">
               <Sparkles className="h-6 w-6 text-white" />
@@ -43,7 +43,7 @@ export default function Landing() {
       </nav>
 
       {/* spacer so fixed nav doesn't overlap content below it */}
-      <div className="h-[72px]" />
+      <div className="h-[56px]" />
 
       {/* NEW: animated showcase section, just below navbar */}
       <HeroShowcase />
