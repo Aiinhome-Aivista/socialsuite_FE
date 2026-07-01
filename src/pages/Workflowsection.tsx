@@ -174,6 +174,7 @@ export default function WorkflowSection() {
 
     gsap.registerPlugin(ScrollTrigger);
 
+    // 1. Heading fade animation (20 -> 100 -> 10)
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: ".gsap-fade-header-workflow",
@@ -183,10 +184,68 @@ export default function WorkflowSection() {
       }
     });
 
-    // Symmetric/Asymmetric Opacity curve: 20% -> 100% -> 10%
     tl.set(".gsap-fade-header-workflow", { opacity: 0.2 })
       .to(".gsap-fade-header-workflow", { opacity: 1.0, ease: "none" })
       .to(".gsap-fade-header-workflow", { opacity: 0.1, ease: "none" });
+
+    // 2. Staggered slide up reveal for each row
+    const textBlocks = document.querySelectorAll(".gsap-workflow-text-block");
+    textBlocks.forEach((block) => {
+      const eyebrow = block.querySelector(".gsap-workflow-eyebrow");
+      const title = block.querySelector(".gsap-workflow-title");
+      const body = block.querySelector(".gsap-workflow-body");
+
+      // Initialize state smoothly to start hidden
+      gsap.set([eyebrow, title, body], { opacity: 0, y: 20 });
+
+      ScrollTrigger.create({
+        trigger: block,
+        start: "top 90%",
+        end: "bottom 10%",
+        onEnter: () => {
+          gsap.killTweensOf([eyebrow, title, body]);
+          gsap.set([eyebrow, title, body], { y: 20, opacity: 0 });
+          gsap.to([eyebrow, title, body], {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.12,
+            ease: "power2.out"
+          });
+        },
+        onLeave: () => {
+          gsap.killTweensOf([eyebrow, title, body]);
+          gsap.to([eyebrow, title, body], {
+            opacity: 0,
+            y: -20,
+            duration: 0.5,
+            stagger: 0.08,
+            ease: "power2.in"
+          });
+        },
+        onEnterBack: () => {
+          gsap.killTweensOf([eyebrow, title, body]);
+          gsap.set([eyebrow, title, body], { y: -20, opacity: 0 });
+          gsap.to([eyebrow, title, body], {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.12,
+            ease: "power2.out"
+          });
+        },
+        onLeaveBack: () => {
+          gsap.killTweensOf([eyebrow, title, body]);
+          gsap.to([eyebrow, title, body], {
+            opacity: 0,
+            y: 20,
+            duration: 0.5,
+            stagger: 0.08,
+            ease: "power2.in"
+          });
+        }
+      });
+    });
   }, []);
 
   return (
@@ -211,14 +270,14 @@ export default function WorkflowSection() {
               i % 2 === 1 ? "md:[&>*:first-child]:order-2" : ""
             }`}
           >
-            <div>
-              <span className="inline-block text-xs font-bold uppercase tracking-wider text-indigo-600 mb-3">
+            <div className="gsap-workflow-text-block">
+              <span className="gsap-workflow-eyebrow inline-block text-xs font-bold uppercase tracking-wider text-indigo-600 mb-3 opacity-0">
                 {row.eyebrow}
               </span>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-tight mb-4">
+              <h3 className="gsap-workflow-title text-2xl sm:text-3xl font-extrabold text-gray-900 leading-tight mb-4 opacity-0">
                 {row.title}
               </h3>
-              <p className="text-gray-600 font-medium leading-relaxed">{row.body}</p>
+              <p className="gsap-workflow-body text-gray-600 font-medium leading-relaxed opacity-0">{row.body}</p>
             </div>
             <Mockup>{row.visual}</Mockup>
           </div>
