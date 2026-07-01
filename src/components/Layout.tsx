@@ -120,9 +120,9 @@ export default function Layout() {
         <footer className="flex h-14 shrink-0 items-center justify-between border-t border-neutral-200 bg-white px-8 text-sm text-neutral-500 z-10">
           <p className="font-medium">&copy; {new Date().getFullYear()} Social Suite. All rights reserved.</p>
           <div className="flex items-center gap-6">
-            <a href="#" className="hover:text-indigo-600 transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-indigo-600 transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-indigo-600 transition-colors">Help Center</a>
+            <a href="/privacy-policy" className="hover:text-indigo-600 transition-colors">Privacy Policy</a>
+            <a href="/terms" className="hover:text-indigo-600 transition-colors">Terms of Service</a>
+            <a href="/cookie-policy" className="hover:text-indigo-600 transition-colors">Cookie Policy</a>
           </div>
         </footer>
       </div>
