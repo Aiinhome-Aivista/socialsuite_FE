@@ -1,4 +1,4 @@
-
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Sparkles, ArrowRight, Activity, Globe, Zap } from "lucide-react";
 import { getToken } from "../lib/api";
@@ -9,6 +9,29 @@ import Footer from "./Footer"; // adjust path to wherever you place the file
 
 export default function Landing() {
   const isLoggedIn = !!getToken();
+
+  useEffect(() => {
+    const gsap = (window as any).gsap;
+    const ScrollTrigger = (window as any).ScrollTrigger;
+
+    if (!gsap || !ScrollTrigger) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".gsap-fade-header",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+      }
+    });
+
+    // Opacity curve: 20% -> 100% -> 10%
+    tl.set(".gsap-fade-header", { opacity: 0.2 })
+      .to(".gsap-fade-header", { opacity: 1.0, ease: "none" })
+      .to(".gsap-fade-header", { opacity: 0.1, ease: "none" });
+  }, []);
 
   return (
     <div className="min-h-screen bg-neutral-50 overflow-hidden relative font-sans">
@@ -55,7 +78,7 @@ export default function Landing() {
           <span className="text-xs font-bold text-indigo-900 uppercase tracking-wider">The next generation of social management</span>
         </div>
 
-        <h1 className="text-5xl md:text-7xl font-extrabold text-gray-900 tracking-tight leading-tight mb-8">
+        <h1 className="gsap-fade-header text-5xl md:text-7xl font-extrabold text-gray-900 tracking-tight leading-tight mb-8">
           Manage all your socials <br className="hidden md:block" />
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600">
             in one beautiful space.

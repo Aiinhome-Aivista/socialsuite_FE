@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   PieChart,
   MessageSquare,
@@ -165,10 +166,33 @@ const ROWS = [
 ];
 
 export default function WorkflowSection() {
+  useEffect(() => {
+    const gsap = (window as any).gsap;
+    const ScrollTrigger = (window as any).ScrollTrigger;
+
+    if (!gsap || !ScrollTrigger) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".gsap-fade-header-workflow",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+      }
+    });
+
+    // Symmetric/Asymmetric Opacity curve: 20% -> 100% -> 10%
+    tl.set(".gsap-fade-header-workflow", { opacity: 0.2 })
+      .to(".gsap-fade-header-workflow", { opacity: 1.0, ease: "none" })
+      .to(".gsap-fade-header-workflow", { opacity: 0.1, ease: "none" });
+  }, []);
+
   return (
     <section className="relative z-10 max-w-7xl mx-auto px-6 pb-32">
       <div className="text-center mb-20">
-        <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">
+        <h2 className="gsap-fade-header-workflow text-3xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">
           One suite.{" "}
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600">
             Every social workflow.
