@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Sparkles as SparklesIcon, Plug, ArrowRight } from "lucide-react";
 
 /**
@@ -47,13 +48,131 @@ const COLUMNS = [
 ];
 
 export default function WhySection() {
+  useEffect(() => {
+    const gsap = (window as any).gsap;
+    const ScrollTrigger = (window as any).ScrollTrigger;
+
+    if (!gsap || !ScrollTrigger) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const block = document.querySelector(".gsap-why-text-block");
+    if (block) {
+      const title = block.querySelector(".gsap-why-title");
+      const body = block.querySelector(".gsap-why-body");
+
+      // Initialize state smoothly to start hidden
+      gsap.set([title, body], { opacity: 0, y: 20 });
+
+      ScrollTrigger.create({
+        trigger: block,
+        start: "top 90%",
+        end: "bottom 10%",
+        onEnter: () => {
+          gsap.killTweensOf([title, body]);
+          gsap.set([title, body], { y: 20, opacity: 0 });
+          gsap.to([title, body], {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.12,
+            ease: "power2.out"
+          });
+        },
+        onLeave: () => {
+          gsap.killTweensOf([title, body]);
+          gsap.to([title, body], {
+            opacity: 0,
+            y: -20,
+            duration: 0.5,
+            stagger: 0.08,
+            ease: "power2.in"
+          });
+        },
+        onEnterBack: () => {
+          gsap.killTweensOf([title, body]);
+          gsap.set([title, body], { y: -20, opacity: 0 });
+          gsap.to([title, body], {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.12,
+            ease: "power2.out"
+          });
+        },
+        onLeaveBack: () => {
+          gsap.killTweensOf([title, body]);
+          gsap.to([title, body], {
+            opacity: 0,
+            y: 20,
+            duration: 0.5,
+            stagger: 0.08,
+            ease: "power2.in"
+          });
+        }
+      });
+    }
+
+    const cards = document.querySelectorAll(".gsap-why-col-card");
+    cards.forEach((card, index) => {
+      // Initialize state smoothly to start hidden
+      gsap.set(card, { opacity: 0, x: -40 });
+
+      ScrollTrigger.create({
+        trigger: card,
+        start: "top 92%",
+        end: "bottom 8%",
+        onEnter: () => {
+          gsap.killTweensOf(card);
+          gsap.set(card, { x: -40, opacity: 0 });
+          gsap.to(card, {
+            opacity: 1,
+            x: 0,
+            duration: 0.8,
+            delay: index * 0.15,
+            ease: "power2.out"
+          });
+        },
+        onLeave: () => {
+          gsap.killTweensOf(card);
+          gsap.to(card, {
+            opacity: 0,
+            x: 40,
+            duration: 0.5,
+            ease: "power2.in"
+          });
+        },
+        onEnterBack: () => {
+          gsap.killTweensOf(card);
+          gsap.set(card, { x: 40, opacity: 0 });
+          gsap.to(card, {
+            opacity: 1,
+            x: 0,
+            duration: 0.8,
+            delay: (2 - index) * 0.15,
+            ease: "power2.out"
+          });
+        },
+        onLeaveBack: () => {
+          gsap.killTweensOf(card);
+          gsap.to(card, {
+            opacity: 0,
+            x: -40,
+            duration: 0.5,
+            ease: "power2.in"
+          });
+        }
+      });
+    });
+  }, []);
+
   return (
     <section className="relative z-10 max-w-6xl mx-auto px-6 pb-32">
-      <div className="text-center mb-16">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight mb-5">
+      <div className="gsap-why-text-block text-center mb-16">
+        <h2 className="gsap-why-title text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight mb-5 opacity-0">
           Why SocialSuite?
         </h2>
-        <p className="max-w-2xl mx-auto text-base sm:text-lg text-gray-600 font-medium leading-relaxed">
+        <p className="gsap-why-body max-w-2xl mx-auto text-base sm:text-lg text-gray-600 font-medium leading-relaxed opacity-0">
           The right tools are only part of the equation. SocialSuite combines powerful social
           media management and intelligence, award-winning customer support, enterprise-grade
           security, and industry-leading service to help you move faster with confidence.
@@ -62,7 +181,7 @@ export default function WhySection() {
 
       <div className="grid md:grid-cols-3 gap-12 md:gap-10">
         {COLUMNS.map((col) => (
-          <div key={col.title} className="text-center md:text-left">
+          <div key={col.title} className="gsap-why-col-card text-center md:text-left opacity-0">
             <div className="mb-5 flex justify-center md:justify-start">{col.icon}</div>
             <h3 className="text-xl font-extrabold text-gray-900 mb-3 leading-snug">{col.title}</h3>
             <p className="text-gray-600 font-medium leading-relaxed mb-6">{col.body}</p>
