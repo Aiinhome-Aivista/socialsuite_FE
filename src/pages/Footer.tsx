@@ -2,6 +2,31 @@ import { Link } from "react-router-dom";
 import { Facebook, Instagram, Twitter, Linkedin, Youtube } from "lucide-react";
 
 /**
+ * lucide-react dropped its Pinterest icon, so it's inlined here to match
+ * the stroke-based style (24x24 viewBox, currentColor, same props shape
+ * as the other icon components) used by the rest of the SOCIALS row.
+ */
+function Pinterest({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M8 20l4-9" />
+      <path d="M10.5 15.5c-.5 1-1 2-1 3.5a3 3 0 1 0 4.5-2.6" />
+      <path d="M12 2a10 10 0 0 0-3.5 19.4" />
+      <path d="M12 2a10 10 0 0 1 3 19.5" />
+      <circle cx="12" cy="12" r="4" />
+    </svg>
+  );
+}
+
+/**
  * Footer
  * Place directly below <WhySection /> in Landing.tsx (last element in the page).
  *
@@ -17,11 +42,12 @@ const LINKS = [
 ];
 
 const SOCIALS = [
-  { icon: Facebook, label: "Facebook", href: "https://www.facebook.com/login" },
-  { icon: Instagram, label: "Instagram", href: "https://www.instagram.com/accounts/login/" },
-  { icon: Twitter, label: "X", href: "https://x.com/login" },
-  { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/login" },
-  { icon: Youtube, label: "YouTube", href: "https://accounts.google.com/ServiceLogin?service=youtube" },
+  { icon: Facebook, label: "Facebook" },
+  { icon: Instagram, label: "Instagram" },
+  { icon: Twitter, label: "X" },
+  { icon: Linkedin, label: "LinkedIn" },
+  { icon: Youtube, label: "YouTube" },
+  { icon: Pinterest, label: "Pinterest" },
 ];
 
 export default function Footer() {
@@ -44,18 +70,16 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          {SOCIALS.map(({ icon: Icon, label, href }) => (
-            <a
+        <div className="flex flex-wrap items-center gap-3">
+          <p className="text-indigo-200 text-sm font-bold">Social suite supports these platforms</p>
+          {SOCIALS.map(({ icon: Icon, label }) => (
+            <span
               key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
               aria-label={label}
               className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center text-white transition-all hover:bg-gradient-to-br hover:from-indigo-500 hover:to-purple-500 hover:-translate-y-0.5"
             >
               <Icon className="h-4 w-4" />
-            </a>
+            </span>
           ))}
         </div>
       </div>
