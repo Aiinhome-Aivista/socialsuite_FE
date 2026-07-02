@@ -26,10 +26,12 @@ const TiktokIcon = ({ className }: { className?: string }) => (
  *    a slow independent float animation
  */
 
-function SafeVideo({ src, className }: { src: string; className?: string }) {
+function SafeVideo({ src, fallbackImg, className }: { src: string; fallbackImg?: string; className?: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
+    setHasError(false);
     const video = videoRef.current;
     if (!video) return;
 
@@ -44,12 +46,12 @@ function SafeVideo({ src, className }: { src: string; className?: string }) {
 
     const handleError = (e: any) => {
       console.error("SafeVideo element error loading source:", src, e);
+      setHasError(true);
     };
 
     video.addEventListener("error", handleError);
     attemptPlay();
 
-    // Re-trigger play on user interaction if autoplay was blocked initially
     const interactionEvents = ["click", "touchstart", "scroll", "mousemove"];
     const handler = () => {
       attemptPlay();
@@ -63,6 +65,16 @@ function SafeVideo({ src, className }: { src: string; className?: string }) {
       interactionEvents.forEach(event => document.removeEventListener(event, handler));
     };
   }, [src]);
+
+  if (hasError && fallbackImg) {
+    return (
+      <img
+        src={fallbackImg}
+        className={`${className} object-cover`}
+        alt="Fallback preview"
+      />
+    );
+  }
 
   return (
     <video
@@ -90,10 +102,10 @@ const SCREENS = [
             <div className="flex items-center gap-1.5">
               <div className="h-6 w-6 rounded-full bg-gradient-to-tr from-yellow-500 via-red-500 to-purple-600 p-[1px]">
                 <div className="h-full w-full rounded-full bg-white flex items-center justify-center p-[1px]">
-                  <div className="h-full w-full rounded-full bg-indigo-600" />
+                  <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80" className="h-full w-full rounded-full object-cover" />
                 </div>
               </div>
-              <span className="text-[10px] font-bold text-gray-900">socialsuite</span>
+              <span className="text-[10px] font-bold text-gray-900">amelia_vlogs</span>
             </div>
             <span className="text-gray-400 text-xs font-bold">•••</span>
           </div>
@@ -103,7 +115,8 @@ const SCREENS = [
             <div className="flex flex-col relative bg-white">
               <div className="h-40 w-full relative flex items-center justify-center bg-gray-100 overflow-hidden">
                 <SafeVideo
-                  src="https://www.w3schools.com/html/mov_bbb.mp4"
+                  src="https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/head-pose-face-detection-female.mp4"
+                  fallbackImg="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=480&auto=format&fit=crop&q=80"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
                 {showHeartPop && (
@@ -122,8 +135,8 @@ const SCREENS = [
                   Liked by {isLiked ? "1,205" : "1,204"} users
                 </p>
                 <p className="text-[8.5px] leading-tight text-gray-800">
-                  <span className="font-bold mr-1">socialsuite</span>
-                  Unleash your brand power with automated scheduling. 🚀
+                  <span className="font-bold mr-1">amelia_vlogs</span>
+                  Mirror selfie aesthetic values. Unleash your brand power with automated scheduling. 🚀
                 </p>
                 {timeActive > 3000 && (
                   <p className="text-[8.5px] leading-tight text-gray-800 animate-in fade-in slide-in-from-bottom-2 duration-500 mt-1">
@@ -136,12 +149,13 @@ const SCREENS = [
             {/* Post 2 */}
             <div className="flex flex-col border-t border-gray-100 pt-2 bg-white">
               <div className="flex items-center gap-1.5 px-2 pb-1.5 bg-white">
-                <div className="h-5 w-5 rounded-full bg-indigo-600" />
-                <span className="text-[9px] font-bold text-gray-900">socialsuite</span>
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" className="h-5 w-5 rounded-full object-cover" />
+                <span className="text-[9px] font-bold text-gray-900">coffeelover_est</span>
               </div>
               <div className="h-40 w-full relative bg-gray-100 overflow-hidden">
                 <SafeVideo
-                  src="https://www.w3schools.com/html/movie.mp4"
+                  src="https://raw.githubusercontent.com/mediaelement/mediaelement-files/master/guadeloupe.mp4"
+                  fallbackImg="https://images.unsplash.com/photo-1498804103079-a6351b050096?w=480&auto=format&fit=crop&q=80"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
               </div>
@@ -152,7 +166,7 @@ const SCREENS = [
                 </div>
                 <p className="text-[9px] font-bold text-gray-900">Liked by 842 users</p>
                 <p className="text-[8.5px] leading-tight text-gray-800">
-                  <span className="font-bold mr-1">socialsuite</span>
+                  <span className="font-bold mr-1">coffeelover_est</span>
                   Track all growth parameters in one single screen.
                 </p>
               </div>
@@ -173,13 +187,13 @@ const SCREENS = [
           {/* Tweet 1 */}
           <div className="flex flex-col">
             <div className="flex items-center gap-1.5 mb-1.5 bg-[#0f1419]">
-              <div className="h-7 w-7 rounded-full bg-indigo-600 flex items-center justify-center font-bold text-[10px]">SS</div>
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80" className="h-7 w-7 rounded-full object-cover" />
               <div className="flex flex-col">
                 <div className="flex items-center gap-0.5">
-                  <span className="text-[9.5px] font-bold leading-none">SocialSuite</span>
+                  <span className="text-[9.5px] font-bold leading-none">Marcus Chen</span>
                   <Sparkles className="h-3 w-3 text-sky-400 fill-sky-400" />
                 </div>
-                <span className="text-[8.5px] text-gray-500 leading-none">@socialsuite</span>
+                <span className="text-[8.5px] text-gray-500 leading-none">@marcus_codes</span>
               </div>
             </div>
             <p className="text-[9.5px] leading-snug mb-2 font-normal text-gray-100">
@@ -187,7 +201,8 @@ const SCREENS = [
             </p>
             <div className="rounded-xl overflow-hidden border border-neutral-800 flex flex-col h-32 relative bg-neutral-900">
               <SafeVideo
-                src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+                src="https://vjs.zencdn.net/v/oceans.mp4"
+                fallbackImg="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=480&auto=format&fit=crop&q=80"
                 className="absolute inset-0 h-full w-full object-cover"
               />
               <div className="absolute bottom-0 left-0 right-0 p-1.5 bg-neutral-900/90 border-t border-neutral-800 backdrop-blur-sm z-10">
@@ -199,12 +214,12 @@ const SCREENS = [
           {/* Tweet 2 */}
           <div className="flex flex-col border-t border-neutral-800 pt-3 bg-[#0f1419]">
             <div className="flex items-center gap-1.5 mb-1.5 bg-[#0f1419]">
-              <div className="h-7 w-7 rounded-full bg-indigo-600 flex items-center justify-center font-bold text-[10px]">SS</div>
+              <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&auto=format&fit=crop&q=80" className="h-7 w-7 rounded-full object-cover" />
               <div className="flex flex-col">
                 <div className="flex items-center gap-0.5">
-                  <span className="text-[9.5px] font-bold leading-none">SocialSuite</span>
+                  <span className="text-[9.5px] font-bold leading-none">Sarah Jenkins</span>
                 </div>
-                <span className="text-[8.5px] text-gray-500 leading-none">@socialsuite</span>
+                <span className="text-[8.5px] text-gray-500 leading-none">@sarah_j</span>
               </div>
             </div>
             <p className="text-[9.5px] leading-snug text-gray-100">
@@ -221,9 +236,9 @@ const SCREENS = [
       <div className="flex h-full flex-col text-left font-sans bg-white text-gray-900 select-none">
         {/* Facebook Header */}
         <div className="flex items-center gap-1.5 p-2 border-b border-gray-100 bg-white z-10 shrink-0">
-          <div className="h-7 w-7 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-[10px]">f</div>
+          <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&auto=format&fit=crop&q=80" className="h-7 w-7 rounded-full object-cover" />
           <div className="flex flex-col">
-            <span className="text-[9.5px] font-bold leading-none text-gray-900">SocialSuite</span>
+            <span className="text-[9.5px] font-bold leading-none text-gray-900">Alex Rivera</span>
             <span className="text-[8px] text-gray-500 leading-none mt-0.5">Sponsored • 🌐</span>
           </div>
         </div>
@@ -236,7 +251,8 @@ const SCREENS = [
             </p>
             <div className="h-36 w-full relative bg-gray-100 overflow-hidden">
               <SafeVideo
-                src="https://www.w3schools.com/html/movie.mp4"
+                src="https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/car-detection.mp4"
+                fallbackImg="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=480&auto=format&fit=crop&q=80"
                 className="absolute inset-0 h-full w-full object-cover"
               />
             </div>
@@ -285,15 +301,16 @@ const SCREENS = [
           {/* Post 2 */}
           <div className="flex flex-col border-t border-gray-100 pt-2 bg-white">
             <div className="flex items-center gap-1.5 px-2 pb-1.5 bg-white">
-              <div className="h-6 w-6 rounded-full bg-indigo-600" />
-              <span className="text-[9px] font-bold text-gray-900">SocialSuite</span>
+              <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80" className="h-6 w-6 rounded-full object-cover" />
+              <span className="text-[9px] font-bold text-gray-900">GrowthCorp Analytics</span>
             </div>
             <p className="text-[9px] px-2 pb-1.5 leading-snug text-gray-800">
               Save hours of work every single week. Automate your posts.
             </p>
             <div className="h-32 w-full relative bg-gray-100 overflow-hidden">
               <SafeVideo
-                src="https://www.w3schools.com/html/mov_bbb.mp4"
+                src="https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/classroom.mp4"
+                fallbackImg="https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=480&auto=format&fit=crop&q=80"
                 className="absolute inset-0 h-full w-full object-cover"
               />
             </div>
@@ -308,10 +325,10 @@ const SCREENS = [
       <div className="flex h-full flex-col text-left font-sans bg-gray-50 text-gray-900 select-none animate-in fade-in duration-300">
         {/* LinkedIn Header */}
         <div className="flex items-center gap-1.5 p-2 bg-white border-b border-gray-150 shrink-0">
-          <div className="h-7 w-7 rounded-full bg-blue-800 text-white flex items-center justify-center font-bold text-[10px]">in</div>
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80" className="h-7 w-7 rounded-full object-cover" />
           <div className="flex flex-col">
-            <span className="text-[9px] font-bold leading-none text-gray-905">SocialSuite</span>
-            <span className="text-[7.5px] text-gray-500 leading-none mt-0.5">14,209 followers • Promoted</span>
+            <span className="text-[9px] font-bold leading-none text-gray-900">Elena Rostova</span>
+            <span className="text-[7.5px] text-gray-500 leading-none mt-0.5">CMO @ TechScale • Promoted</span>
           </div>
         </div>
         {/* Feed */}
@@ -323,7 +340,8 @@ const SCREENS = [
             </p>
             <div className="rounded-lg overflow-hidden border border-gray-200 w-full mb-1 bg-white flex flex-col h-32 relative bg-gray-100 shrink-0">
               <SafeVideo
-                src="https://www.w3schools.com/html/mov_bbb.mp4"
+                src="https://vjs.zencdn.net/v/oceans.mp4"
+                fallbackImg="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=480&auto=format&fit=crop&q=80"
                 className="absolute inset-0 h-full w-full object-cover"
               />
               <div className="absolute bottom-0 left-0 right-0 p-2 bg-white/90 border-t border-gray-100 z-10 backdrop-blur-sm">
@@ -336,10 +354,10 @@ const SCREENS = [
           {/* Post 2 */}
           <div className="flex flex-col bg-white border border-gray-200 rounded-lg p-2 pb-2.5">
             <div className="flex items-center gap-1.5 pb-1.5">
-              <div className="h-5 w-5 rounded-full bg-indigo-600 flex items-center justify-center font-bold text-white text-[7px] shrink-0">SS</div>
+              <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&auto=format&fit=crop&q=80" className="h-5 w-5 rounded-full object-cover shrink-0" />
               <div className="flex flex-col">
-                <span className="text-[8.5px] font-bold leading-none text-gray-900">SocialSuite</span>
-                <span className="text-[7px] text-gray-500 mt-0.5">Automated queue • 1d</span>
+                <span className="text-[8.5px] font-bold leading-none text-gray-900">David Vance</span>
+                <span className="text-[7px] text-gray-500 mt-0.5">Talent Acquisition • 1d</span>
               </div>
             </div>
             <p className="text-[8.5px] pb-1.5 leading-snug text-gray-800">
@@ -347,7 +365,8 @@ const SCREENS = [
             </p>
             <div className="rounded-lg overflow-hidden border border-gray-200 w-full bg-white flex flex-col h-28 relative bg-gray-100 shrink-0">
               <SafeVideo
-                src="https://www.w3schools.com/html/movie.mp4"
+                src="https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/classroom.mp4"
+                fallbackImg="https://images.unsplash.com/photo-1542744094-3a31f103e35f?w=480&auto=format&fit=crop&q=80"
                 className="absolute inset-0 h-full w-full object-cover"
               />
             </div>
@@ -386,7 +405,8 @@ const SCREENS = [
           {/* YouTube Video Player Mock */}
           <div className="relative aspect-video w-full bg-black shrink-0 flex items-center justify-center overflow-hidden">
             <SafeVideo
-              src="https://www.w3schools.com/html/movie.mp4"
+              src="https://raw.githubusercontent.com/mediaelement/mediaelement-files/master/echo-hereweare.mp4"
+              fallbackImg="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=480&auto=format&fit=crop&q=80"
               className="absolute inset-0 h-full w-full object-cover opacity-85"
             />
             {/* Custom Indigo Progress Bar */}
@@ -413,9 +433,9 @@ const SCREENS = [
 
             <div className="flex items-center justify-between border-y border-neutral-855 py-2 bg-[#0f0f0f]">
               <div className="flex items-center gap-1.5">
-                <div className="h-5 w-5 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center font-bold text-[8px]">SS</div>
+                <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80" className="h-5 w-5 rounded-full object-cover" />
                 <div className="flex flex-col">
-                  <span className="text-[8.5px] font-bold text-gray-100 leading-none">SocialSuite</span>
+                  <span className="text-[8.5px] font-bold text-gray-100 leading-none">TechVibe Reviews</span>
                   <span className="text-[7px] text-gray-500 leading-none mt-0.5">
                     {timeActive > 3500 ? "12.1k subscribers" : "12.0k subscribers"}
                   </span>
@@ -449,7 +469,8 @@ const SCREENS = [
             <div className="flex gap-2">
               <div className="h-10 w-16 bg-cover bg-center rounded-md shrink-0 relative bg-neutral-900 overflow-hidden">
                 <SafeVideo
-                  src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+                  src="https://raw.githubusercontent.com/mediaelement/mediaelement-files/master/guadeloupe.mp4"
+                  fallbackImg="https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=480&auto=format&fit=crop&q=80"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
               </div>
@@ -479,7 +500,8 @@ const SCREENS = [
             <div className="flex flex-col gap-1 bg-white">
               <div className="h-28 rounded-xl overflow-hidden relative bg-gray-100">
                 <SafeVideo
-                  src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+                  src="https://raw.githubusercontent.com/mediaelement/mediaelement-files/master/guadeloupe.mp4"
+                  fallbackImg="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=240&auto=format&fit=crop&q=80"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
                 <div className="absolute top-1 right-1 bg-red-600 text-white text-[6px] font-extrabold px-1.5 py-0.5 rounded-full">Save</div>
@@ -490,7 +512,8 @@ const SCREENS = [
             <div className="flex flex-col gap-1 bg-white">
               <div className="h-28 rounded-xl overflow-hidden relative bg-gray-100">
                 <SafeVideo
-                  src="https://www.w3schools.com/html/mov_bbb.mp4"
+                  src="https://vjs.zencdn.net/v/oceans.mp4"
+                  fallbackImg="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=240&auto=format&fit=crop&q=80"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
                 <div className="absolute top-1 right-1 bg-red-600 text-white text-[6px] font-extrabold px-1.5 py-0.5 rounded-full">Save</div>
@@ -501,7 +524,8 @@ const SCREENS = [
             <div className="flex flex-col gap-1 bg-white">
               <div className="h-24 rounded-xl overflow-hidden relative bg-gray-100">
                 <SafeVideo
-                  src="https://www.w3schools.com/html/movie.mp4"
+                  src="https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/fruit-and-vegetable-detection.mp4"
+                  fallbackImg="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=240&auto=format&fit=crop&q=80"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
                 <div className="absolute top-1 right-1 bg-red-600 text-white text-[6px] font-extrabold px-1.5 py-0.5 rounded-full">Save</div>
@@ -512,7 +536,8 @@ const SCREENS = [
             <div className="flex flex-col gap-1 bg-white">
               <div className="h-28 rounded-xl overflow-hidden relative bg-gray-100">
                 <SafeVideo
-                  src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+                  src="https://vjs.zencdn.net/v/oceans.mp4"
+                  fallbackImg="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=240&auto=format&fit=crop&q=80"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
                 <div className="absolute top-1 right-1 bg-red-600 text-white text-[6px] font-extrabold px-1.5 py-0.5 rounded-full">Save</div>
@@ -523,7 +548,8 @@ const SCREENS = [
             <div className="flex flex-col gap-1 bg-white">
               <div className="h-24 rounded-xl overflow-hidden relative bg-gray-100">
                 <SafeVideo
-                  src="https://www.w3schools.com/html/mov_bbb.mp4"
+                  src="https://raw.githubusercontent.com/mediaelement/mediaelement-files/master/guadeloupe.mp4"
+                  fallbackImg="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=240&auto=format&fit=crop&q=80"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
                 <div className="absolute top-1 right-1 bg-red-600 text-white text-[6px] font-extrabold px-1.5 py-0.5 rounded-full">Save</div>
@@ -534,7 +560,8 @@ const SCREENS = [
             <div className="flex flex-col gap-1 bg-white">
               <div className="h-28 rounded-xl overflow-hidden relative bg-gray-100">
                 <SafeVideo
-                  src="https://www.w3schools.com/html/movie.mp4"
+                  src="https://vjs.zencdn.net/v/oceans.mp4"
+                  fallbackImg="https://images.unsplash.com/photo-1472214222541-d510753a8707?w=240&auto=format&fit=crop&q=80"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
                 <div className="absolute top-1 right-1 bg-red-600 text-white text-[6px] font-extrabold px-1.5 py-0.5 rounded-full">Save</div>
@@ -694,7 +721,7 @@ function PhoneMock({ active }: { active: number }) {
   };
 
   return (
-    <div className="relative z-10 mx-auto w-full h-[507px] sm:h-[720px]">
+    <div className="relative z-10 mx-auto w-full h-[450px] sm:h-[650px]">
       {/* 3D Real Human Hand holding phone PNG (Processed with transparent cutout and bottom fade) */}
       <img
         src={processedImage || humanHandPhone}
@@ -743,7 +770,7 @@ type Float = {
 const CARDS: Float[] = [
   {
     x: -160,
-    y: 3,
+    y: 9,
     w: 170,
     delay: "0.1s",
     children: (
@@ -790,7 +817,7 @@ const CARDS: Float[] = [
   },
   {
     x: -240,
-    y: 26,
+    y: 33,
     w: 150,
     delay: "0.5s",
     children: (
@@ -893,35 +920,35 @@ const CARDS: Float[] = [
   },
   // Standalone Brand Logo Cards:
   {
-    x: -260,
-    y: 12,
+    x: -290,
+    y: 6,
     w: 52,
     delay: "0.2s",
     children: (
-      <div className="w-[45px] h-[45px] sm:w-[52px] sm:h-[52px] rounded-xl bg-black text-white flex items-center justify-center shadow-lg transition-all duration-350 hover:scale-110 hover:shadow-black/20">
-        <TiktokIcon className="h-5 w-5 fill-white shrink-0" />
+      <div className="w-[45px] h-[45px] sm:w-[52px] sm:h-[52px] rounded-full bg-[#0077b5] text-white flex items-center justify-center shadow-lg transition-all duration-350 hover:scale-110 hover:shadow-blue-600/20">
+        <Linkedin className="h-5.5 w-5.5 fill-white text-[#0077b5] shrink-0" />
       </div>
     ),
   },
   {
-    x: 465,
-    y: 13,
+    x: 435,
+    y: 16,
     w: 52,
     delay: "0.4s",
     children: (
-      <div className="w-[45px] h-[45px] sm:w-[52px] sm:h-[52px] rounded-xl bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] text-white flex items-center justify-center shadow-lg transition-all duration-350 hover:scale-110 hover:shadow-pink-600/25">
+      <div className="w-[45px] h-[45px] sm:w-[52px] sm:h-[52px] rounded-full bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] text-white flex items-center justify-center shadow-lg transition-all duration-350 hover:scale-110 hover:shadow-pink-600/25">
         <Instagram className="h-5.5 w-5.5 text-white stroke-[2.5px] shrink-0" />
       </div>
     ),
   },
   {
     x: 720,
-    y: 23,
+    y: 22,
     w: 52,
     delay: "0.6s",
     children: (
-      <div className="w-[45px] h-[45px] sm:w-[52px] sm:h-[52px] rounded-xl bg-[#0077b5] text-white flex items-center justify-center shadow-lg transition-all duration-350 hover:scale-110 hover:shadow-blue-600/25">
-        <Linkedin className="h-5 w-5 fill-white text-[#0077b5] shrink-0" />
+      <div className="w-[45px] h-[45px] sm:w-[52px] sm:h-[52px] rounded-full bg-black text-white flex items-center justify-center shadow-lg transition-all duration-350 hover:scale-110 hover:shadow-black/20">
+        <Twitter className="h-5 w-5 text-white fill-white shrink-0" />
       </div>
     ),
   },
@@ -931,7 +958,7 @@ const CARDS: Float[] = [
     w: 52,
     delay: "0.8s",
     children: (
-      <div className="w-[45px] h-[45px] sm:w-[52px] sm:h-[52px] rounded-xl bg-[#1877f2] text-white flex items-center justify-center shadow-lg transition-all duration-350 hover:scale-110 hover:shadow-blue-600/25">
+      <div className="w-[45px] h-[45px] sm:w-[52px] sm:h-[52px] rounded-full bg-[#1877f2] text-white flex items-center justify-center shadow-lg transition-all duration-350 hover:scale-110 hover:shadow-blue-600/25">
         <Facebook className="h-5.5 w-5.5 fill-white text-[#1877f2] shrink-0" />
       </div>
     ),
@@ -942,7 +969,7 @@ const CARDS: Float[] = [
     w: 52,
     delay: "1.0s",
     children: (
-      <div className="w-[45px] h-[45px] sm:w-[52px] sm:h-[52px] rounded-xl bg-[#ff0000] text-white flex items-center justify-center shadow-lg transition-all duration-350 hover:scale-110 hover:shadow-red-600/25">
+      <div className="w-[45px] h-[45px] sm:w-[52px] sm:h-[52px] rounded-full bg-[#ff0000] text-white flex items-center justify-center shadow-lg transition-all duration-350 hover:scale-110 hover:shadow-red-600/25">
         <Youtube className="h-5 w-5 fill-white text-[#ff0000] shrink-0" />
       </div>
     ),
@@ -994,7 +1021,7 @@ export default function HeroShowcase({ isDark }: { isDark: boolean }) {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       const now = Date.now();
-      
+
       setScrollY(currentScrollY);
 
       // Bidirectional, rate-limited scroll listener
@@ -1087,11 +1114,11 @@ export default function HeroShowcase({ isDark }: { isDark: boolean }) {
 
       <div className="relative mx-auto max-w-5xl px-6 flex flex-col items-center gap-0">
 
-        <div className="relative text-center w-full select-none z-0 mb-[-15px] sm:mb-[-30px] overflow-hidden">
+        <div className="relative text-center w-full select-none z-0  sm:-mt-5 mb-[-20px] sm:mb-[-40px] overflow-hidden">
           <span
-            className="text-[6.5vw] sm:text-[5.5vw] font-black tracking-tighter uppercase bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-600 opacity-40 leading-none whitespace-nowrap inline-block"
-            style={{ 
-              transform: `scaleX(1.35) translateX(${-scrollY * 0.08}px)`, 
+            className="text-[9vw] sm:text-[8vw] font-black tracking-tighter uppercase bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-600 opacity-40 leading-none whitespace-nowrap inline-block"
+            style={{
+              transform: `scaleX(1.35) translateX(${-scrollY * 0.08}px)`,
               transformOrigin: "center",
               transition: "transform 0.15s cubic-bezier(0.1, 0.8, 0.2, 1)"
             }}
@@ -1101,28 +1128,28 @@ export default function HeroShowcase({ isDark }: { isDark: boolean }) {
         </div>
 
         {/* Middle container: Pinned phone + floating cards */}
-        <div className="relative z-10 w-full flex justify-center py-0 mt-[-2px] sm:mt-[-35px]">
-          <div className="relative w-[380px] sm:w-[540px] translate-x-[20px] sm:translate-x-[35px]">
+        <div className="relative z-10 w-full flex justify-center py-0 mt-[5px] sm:mt-[-15px]">
+          <div className="relative w-[338px] sm:w-[488px] translate-x-[20px] sm:translate-x-[35px]">
             <PhoneMock active={active} />
 
             {CARDS.map((card, i) => {
               const outerStyle = mounted
                 ? {
-                    left: `${card.x}px`,
-                    top: `${card.y}%`,
-                    width: `${card.w}px`,
-                    opacity: 1,
-                    transform: "scale(1)",
-                    transition: `all 1.2s cubic-bezier(0.16, 1, 0.3, 1) ${card.delay}`,
-                  }
+                  left: `${card.x}px`,
+                  top: `${card.y}%`,
+                  width: `${card.w}px`,
+                  opacity: 1,
+                  transform: "scale(1)",
+                  transition: `all 1.2s cubic-bezier(0.16, 1, 0.3, 1) ${card.delay}`,
+                }
                 : {
-                    left: "50%",
-                    top: "35%",
-                    width: `${card.w}px`,
-                    opacity: 0,
-                    transform: "scale(0.15) translate(-50%, -50%)",
-                    transition: "all 0.4s ease-in-out",
-                  };
+                  left: "50%",
+                  top: "35%",
+                  width: `${card.w}px`,
+                  opacity: 0,
+                  transform: "scale(0.15) translate(-50%, -50%)",
+                  transition: "all 0.4s ease-in-out",
+                };
 
               return (
                 <div
@@ -1139,11 +1166,11 @@ export default function HeroShowcase({ isDark }: { isDark: boolean }) {
           </div>
         </div>
 
-        <div className="relative text-center w-full select-none z-25 -mt-40 sm:-mt-106 overflow-hidden">
+        <div className="relative text-center w-full select-none z-25 -mt-40 sm:-mt-120 overflow-hidden">
           <span
-            className="text-[6.5vw] sm:text-[5.5vw] font-black tracking-tighter uppercase bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-600 opacity-95 leading-none whitespace-nowrap inline-block"
-            style={{ 
-              transform: `scaleX(1.35) translateX(${scrollY * 0.08}px)`, 
+            className="text-[9vw] sm:text-[8vw] font-black tracking-tighter uppercase bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-600 opacity-95 leading-none whitespace-nowrap inline-block"
+            style={{
+              transform: `scaleX(1.35) translateX(${scrollY * 0.08}px)`,
               transformOrigin: "center",
               transition: "transform 0.15s cubic-bezier(0.1, 0.8, 0.2, 1)"
             }}
