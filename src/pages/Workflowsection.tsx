@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   ArrowUpRight,
   Heart,
@@ -123,65 +123,6 @@ export default function WorkflowSection() {
     tl.set(".gsap-fade-header-workflow", { opacity: 0.2 })
       .to(".gsap-fade-header-workflow", { opacity: 1.0, ease: "none" })
       .to(".gsap-fade-header-workflow", { opacity: 0.1, ease: "none" });
-
-    // 2. Staggered slide up reveal for each row
-    const textBlocks = document.querySelectorAll(".gsap-workflow-text-block");
-    textBlocks.forEach((block) => {
-      const eyebrow = block.querySelector(".gsap-workflow-eyebrow");
-      const title = block.querySelector(".gsap-workflow-title");
-      const body = block.querySelector(".gsap-workflow-body");
-
-      // Initialize state smoothly to start hidden
-      gsap.set([eyebrow, title, body], { opacity: 0, y: 20 });
-
-      ScrollTrigger.create({
-        trigger: block,
-        start: "top 90%",
-        end: "bottom 10%",
-        onEnter: () => {
-          gsap.killTweensOf([eyebrow, title, body]);
-          gsap.set([eyebrow, title, body], { y: 20, opacity: 0 });
-          gsap.to([eyebrow, title, body], {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            stagger: 0.12,
-            ease: "power2.out"
-          });
-        },
-        onLeave: () => {
-          gsap.killTweensOf([eyebrow, title, body]);
-          gsap.to([eyebrow, title, body], {
-            opacity: 0,
-            y: -20,
-            duration: 0.5,
-            stagger: 0.08,
-            ease: "power2.in"
-          });
-        },
-        onEnterBack: () => {
-          gsap.killTweensOf([eyebrow, title, body]);
-          gsap.set([eyebrow, title, body], { y: -20, opacity: 0 });
-          gsap.to([eyebrow, title, body], {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            stagger: 0.12,
-            ease: "power2.out"
-          });
-        },
-        onLeaveBack: () => {
-          gsap.killTweensOf([eyebrow, title, body]);
-          gsap.to([eyebrow, title, body], {
-            opacity: 0,
-            y: 20,
-            duration: 0.5,
-            stagger: 0.08,
-            ease: "power2.in"
-          });
-        }
-      });
-    });
   }, []);
 
   return (
@@ -200,34 +141,72 @@ export default function WorkflowSection() {
 
       <div className="space-y-20 sm:space-y-28">
         {ROWS.map((row, i) => (
-          <div
-            key={row.eyebrow}
-            className={`grid md:grid-cols-2 gap-10 md:gap-16 items-center ${
-              i % 2 === 1 ? "md:[&>*:first-child]:order-2" : ""
-            }`}
-          >
-            <div className="gsap-workflow-text-block">
-              <span className="gsap-workflow-eyebrow inline-block text-xs font-bold uppercase tracking-wider text-indigo-600 mb-3 opacity-0">
-                {row.eyebrow}
-              </span>
-              <h3 className="gsap-workflow-title text-2xl sm:text-3xl font-extrabold text-gray-900 leading-tight mb-4 opacity-0">
-                {row.title}
-              </h3>
-              <p className="gsap-workflow-body text-gray-600 font-medium leading-relaxed opacity-0">{row.body}</p>
-            </div>
-            <Mockup>
-              <img
-                src={row.image}
-                alt={row.title}
-                className="absolute inset-0 h-full w-full object-cover"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-              {row.visual}
-            </Mockup>
-          </div>
+          <WorkflowRow key={row.eyebrow} row={row} i={i} />
         ))}
       </div>
     </section>
+  );
+}
+
+function WorkflowRow({ row, i }: { row: typeof ROWS[0]; i: number }) {
+  const [visible, setVisible] = useState(false);
+  const rowRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setVisible(entry.isIntersecting);
+      },
+      { threshold: 0.15 }
+    );
+
+    const el = rowRef.current;
+    if (el) observer.observe(el);
+
+    return () => observer.disconnect();
+  }, []);
+
+  const isOdd = i % 2 === 1;
+
+  // Even row: Image on Right (slides from right)
+  // Odd row: Image on Left (slides from left)
+  const imageTranslateClass = visible
+    ? "opacity-100 translate-x-0"
+    : isOdd
+      ? "opacity-0 -translate-x-16"
+      : "opacity-0 translate-x-16";
+
+  return (
+    <div
+      ref={rowRef}
+      className={`grid md:grid-cols-2 gap-10 md:gap-16 items-center overflow-hidden py-2 ${
+        isOdd ? "md:[&>*:first-child]:order-2" : ""
+      }`}
+    >
+      {/* Static text block */}
+      <div>
+        <span className="inline-block text-xs font-bold uppercase tracking-wider text-indigo-600 mb-3">
+          {row.eyebrow}
+        </span>
+        <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-tight mb-4">
+          {row.title}
+        </h3>
+        <p className="text-gray-600 font-medium leading-relaxed">{row.body}</p>
+      </div>
+
+      {/* Animated image mockup container */}
+      <div className={`transition-all duration-[1000ms] ease-out ${imageTranslateClass}`}>
+        <Mockup>
+          <img
+            src={row.image}
+            alt={row.title}
+            className="absolute inset-0 h-full w-full object-cover"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+          {row.visual}
+        </Mockup>
+      </div>
+    </div>
   );
 }
