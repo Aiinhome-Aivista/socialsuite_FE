@@ -53,11 +53,8 @@ const SOCIALS = [
 export default function Footer() {
   return (
     <footer className="relative z-10 bg-[#1a1342]">
-      <div className="max-w-7xl mx-auto px-6 py-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-8">
-        <div>
-          <p className="text-white font-extrabold text-base mb-4">
-            Copyright ©{new Date().getFullYear()} SocialSuite
-          </p>
+      <div className="mx-auto px-8 pt-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-8">
           <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm font-bold">
             {LINKS.map((link, i) => (
               <span key={link.label} className="flex items-center gap-3">
@@ -68,20 +65,24 @@ export default function Footer() {
               </span>
             ))}
           </div>
+
+          <div className="flex flex-wrap items-center gap-3 sm:ml-auto sm:justify-end">
+            <p className="text-indigo-200 text-sm font-bold">Social suite supports these platforms</p>
+            {SOCIALS.map(({ icon: Icon, label }) => (
+              <span
+                key={label}
+                aria-label={label}
+                className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center text-white transition-all hover:bg-gradient-to-br hover:from-indigo-500 hover:to-purple-500 hover:-translate-y-0.5"
+              >
+                <Icon className="h-4 w-4" />
+              </span>
+            ))}
+          </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
-          <p className="text-indigo-200 text-sm font-bold">Social suite supports these platforms</p>
-          {SOCIALS.map(({ icon: Icon, label }) => (
-            <span
-              key={label}
-              aria-label={label}
-              className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center text-white transition-all hover:bg-gradient-to-br hover:from-indigo-500 hover:to-purple-500 hover:-translate-y-0.5"
-            >
-              <Icon className="h-4 w-4" />
-            </span>
-          ))}
-        </div>
+        <p className="text-white text-sm text-center py-6">
+          Copyright ©{new Date().getFullYear()} SocialSuite
+        </p>
       </div>
     </footer>
   );

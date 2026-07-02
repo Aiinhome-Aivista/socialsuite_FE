@@ -36,7 +36,7 @@ const ROWS = [
     eyebrow: "Engagement",
     title: "Boost engagement, reach, and follower count with less effort",
     body: "See the content that belongs in the algorithm's good graces, and reuse and resurface what's already working for your audience. Plus, get personalized suggestions for how to win on each platform, so you're never starting from a blank page.",
-    image: "https://picsum.photos/seed/engagement-analytics/1000/750",
+    image: "https://www.eumaxindia.com/wp-content/uploads/2023/08/WhatsApp-Image-2023-08-14-at-18.38.02.jpeg",
     visual: (
       <>
         <div className="absolute top-5 left-5 rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-600 px-4 py-3 shadow-lg flex items-center gap-2">
@@ -54,7 +54,7 @@ const ROWS = [
     eyebrow: "Inbox",
     title: "Respond to social media messages and comments in one place",
     body: "Bring every conversation into one inbox built for private messaging at scale. Reply to DMs and comments fast with saved and suggested replies, and tackle engagement as a team without losing track of who replied to what.",
-    image: "https://picsum.photos/seed/team-inbox-messaging/1000/750",
+    image: "https://st5.depositphotos.com/80167094/69096/i/450/depositphotos_690963872-stock-photo-people-using-touching-social-media.jpg",
     visual: (
       <div className="absolute bottom-5 left-5 right-5 rounded-2xl bg-gray-900/90 backdrop-blur px-4 py-3 shadow-lg flex items-center gap-3">
         <span className="h-2 w-2 rounded-full bg-emerald-400 shrink-0" />
@@ -67,7 +67,7 @@ const ROWS = [
     eyebrow: "Trends",
     title: "Stay ahead of the latest trends and boost your chances of going viral",
     body: "Figure out exactly which sounds, hashtags, and formats your audience cares about with trend tracking and discovery. You can also search by topic, hashtag, or industry to discover what's getting the most action in your niche.",
-    image: "https://picsum.photos/seed/social-trends-discovery/1000/750",
+    image: "https://purplegiraffe.com.au/wp-content/uploads/2025/08/dont-go-viral-1-1024x683.png",
     visual: (
       <div className="absolute top-5 left-5 rounded-2xl bg-white/90 backdrop-blur px-4 py-3 shadow-lg">
         <p className="text-[10px] font-bold text-gray-400 tracking-wide">TRENDING NOW</p>
@@ -79,7 +79,7 @@ const ROWS = [
     eyebrow: "Competitors",
     title: "Beat your competitors to the next big thing",
     body: "Track the performance, posting frequency, and strategies of your competitors across all media types. Keep an eye on the public's perception of your competitors with sentiment analysis, then share what people think out loud about your brand and competitors.",
-    image: "https://picsum.photos/seed/competitor-benchmarking/1000/750",
+    image: "https://popsters.ru/blog/content/all/mceu0sln95ezlz2bjrz41e852g8jq8sfo.png",
     visual: (
       <div className="absolute top-5 right-5 rounded-2xl bg-white/90 backdrop-blur px-4 py-3 shadow-lg flex items-center gap-2">
         <Trophy className="h-4 w-4 text-amber-500" />
@@ -91,7 +91,7 @@ const ROWS = [
     eyebrow: "Advocacy",
     title: "Turn passionate employee advocates into engagement and reach",
     body: "Don't miss out on your greatest untapped brand asset: employee social networks. Make it simple for your team to share approved content, post with personality, and access social networks your brand could never reach alone.",
-    image: "https://picsum.photos/seed/employee-advocacy-team/1000/750",
+    image: "https://be-ambassador.com/wp-content/uploads/2026/05/Creatividades-Blogpost-BeAmbassador-915x515.png",
     visual: (
       <div className="absolute bottom-5 left-5 rounded-2xl bg-gray-900/90 backdrop-blur px-4 py-3 shadow-lg flex items-center gap-2">
         <Users className="h-4 w-4 text-white" />
