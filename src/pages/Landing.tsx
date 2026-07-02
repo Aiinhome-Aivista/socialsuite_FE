@@ -115,6 +115,14 @@ export default function Landing() {
       .to(".gsap-fade-header", { opacity: 0.1, ease: "none" });
   }, []);
 
+  const leftBtnClass = headerVisible
+    ? "opacity-100 translate-x-0"
+    : "opacity-0 -translate-x-12 pointer-events-none";
+
+  const rightBtnClass = headerVisible
+    ? "opacity-100 translate-x-0"
+    : "opacity-0 translate-x-12 pointer-events-none";
+
   return (
     <div className={`min-h-screen relative font-sans transition-all duration-[800ms] ease-in-out hero-section-transition overflow-hidden ${isDark ? "bg-slate-950 text-white dark-mode-active" : "bg-neutral-50 text-gray-900"}`}>
       {/* Background Orbs */}
@@ -193,13 +201,17 @@ export default function Landing() {
             Create, schedule, and analyze your content across all major platforms with our AI-powered suite. Stop juggling tabs and start growing your audience.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to={isLoggedIn ? "/dashboard" : "/login"} className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-gray-900 px-8 py-4 text-base font-bold text-white shadow-xl shadow-gray-900/20 transition-all hover:bg-gray-800 hover:shadow-2xl hover:shadow-gray-900/30 hover:-translate-y-1">
-              Get Started Free <ArrowRight className="h-5 w-5" />
-            </Link>
-            <a href="#features" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-base font-bold text-gray-700 shadow-sm border border-gray-200 transition-all hover:bg-gray-50 hover:shadow-md">
-              Explore Features
-            </a>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 overflow-hidden py-2">
+            <div className={`w-full sm:w-auto transition-all duration-[1000ms] ease-out ${leftBtnClass}`}>
+              <Link to={isLoggedIn ? "/dashboard" : "/login"} className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-gray-900 px-8 py-4 text-base font-bold text-white shadow-xl shadow-gray-900/20 transition-all hover:bg-gray-800 hover:shadow-2xl hover:shadow-gray-900/30 hover:-translate-y-1">
+                Get Started Free <ArrowRight className="h-5 w-5" />
+              </Link>
+            </div>
+            <div className={`w-full sm:w-auto transition-all duration-[1000ms] ease-out ${rightBtnClass}`}>
+              <a href="#features" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-base font-bold text-gray-700 shadow-sm border border-gray-200 transition-all hover:bg-gray-50 hover:shadow-md">
+                Explore Features
+              </a>
+            </div>
           </div>
         </div>
 

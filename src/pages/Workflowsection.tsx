@@ -150,7 +150,9 @@ export default function WorkflowSection() {
 
 function WorkflowRow({ row, i }: { row: typeof ROWS[0]; i: number }) {
   const [visible, setVisible] = useState(false);
+  const [scrollDir, setScrollDir] = useState<"up" | "down">("down");
   const rowRef = useRef<HTMLDivElement>(null);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -163,13 +165,34 @@ function WorkflowRow({ row, i }: { row: typeof ROWS[0]; i: number }) {
     const el = rowRef.current;
     if (el) observer.observe(el);
 
-    return () => observer.disconnect();
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY.current) {
+        setScrollDir("down");
+      } else if (currentScrollY < lastScrollY.current) {
+        setScrollDir("up");
+      }
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   const isOdd = i % 2 === 1;
 
-  // Even row: Image on Right (slides from right)
-  // Odd row: Image on Left (slides from left)
+  // Text: Down-scroll slides UP, Up-scroll slides DOWN
+  const textTranslateClass = visible
+    ? "opacity-100 translate-y-0"
+    : scrollDir === "down"
+      ? "opacity-0 translate-y-12"
+      : "opacity-0 -translate-y-12";
+
+  // Image: Even rows (Right) slides from right, Odd rows (Left) slides from left
   const imageTranslateClass = visible
     ? "opacity-100 translate-x-0"
     : isOdd
@@ -183,8 +206,8 @@ function WorkflowRow({ row, i }: { row: typeof ROWS[0]; i: number }) {
         isOdd ? "md:[&>*:first-child]:order-2" : ""
       }`}
     >
-      {/* Static text block */}
-      <div>
+      {/* Animated text block */}
+      <div className={`transition-all duration-[1000ms] ease-out ${textTranslateClass}`}>
         <span className="inline-block text-xs font-bold uppercase tracking-wider text-indigo-600 mb-3">
           {row.eyebrow}
         </span>
