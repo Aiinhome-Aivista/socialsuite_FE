@@ -2,6 +2,18 @@ import { useEffect, useState, useRef } from "react";
 import { Star, Sparkles, TrendingUp, Heart, MessageCircle, Youtube, Facebook, Twitter, Instagram, Linkedin, Timer, Pin, BarChart2, ThumbsUp, MessageSquare, Share2 } from "lucide-react";
 import humanHandPhone from "../human_hand_phone.png";
 
+const PinterestIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="currentColor">
+    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.08 3.16 9.42 7.63 11.16-.1-.95-.2-2.4.04-3.43.22-.93 1.4-5.93 1.4-5.93s-.36-.72-.36-1.77c0-1.66.96-2.9 2.17-2.9 1.02 0 1.51.77 1.51 1.69 0 1.03-.65 2.56-.99 3.98-.28 1.19.6 2.16 1.77 2.16 2.12 0 3.76-2.24 3.76-5.47 0-2.86-2.06-4.86-5-4.86-3.4 0-5.4 2.56-5.4 5.2 0 1.03.4 2.14.9 2.74.1.12.11.23.08.35-.09.38-.3 1.23-.34 1.4-.06.23-.19.28-.43.17-1.6-.74-2.6-3.08-2.6-4.96 0-4.04 2.94-7.75 8.47-7.75 4.45 0 7.9 3.17 7.9 7.4 0 4.42-2.79 7.98-6.66 7.98-1.3 0-2.52-.67-2.94-1.47l-.8 3.06c-.29 1.12-1.08 2.52-1.6 3.37C8.91 23.77 10.42 24 12 24c6.63 0 12-5.37 12-12S18.63 0 12 0z" />
+  </svg>
+);
+
+const TiktokIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="currentColor">
+    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.81-.8-3.89-1.8-.16-.15-.31-.31-.46-.47-.03 1.94-.01 3.89-.02 5.83 0 1.63-.33 3.32-1.3 4.67-1.12 1.57-2.99 2.59-4.93 2.74-2.12.18-4.38-.56-5.74-2.23-1.45-1.74-1.74-4.32-1-6.42.66-1.92 2.37-3.48 4.39-3.9 1.02-.21 2.09-.11 3.08.18v4.09c-.61-.26-1.32-.34-1.96-.2-.93.18-1.73.95-1.91 1.88-.26 1.16.42 2.45 1.55 2.78.85.26 1.86.06 2.47-.58.55-.54.69-1.36.68-2.11.02-3.83 0-7.66.01-11.49z" />
+  </svg>
+);
+
 /**
  * HeroShowcase
  * Drop this in just below the <nav> in Landing.tsx, above (or in place of)
@@ -377,10 +389,10 @@ const SCREENS = [
               src="https://www.w3schools.com/html/movie.mp4"
               className="absolute inset-0 h-full w-full object-cover opacity-85"
             />
-            {/* Custom Red Progress Bar */}
+            {/* Custom Indigo Progress Bar */}
             <div className="absolute bottom-0 left-0 right-0 h-1 bg-neutral-850 z-10">
               <div
-                className="h-full bg-red-600 transition-all duration-100"
+                className="h-full bg-indigo-600 transition-all duration-100"
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
@@ -393,7 +405,7 @@ const SCREENS = [
               </h4>
               <div className="flex items-center justify-between text-[7.5px] text-gray-400">
                 <span>14k views • 3 days ago</span>
-                <span className="font-mono text-red-500 font-bold bg-neutral-900 px-1 rounded">
+                <span className="font-mono text-indigo-400 font-bold bg-neutral-900 px-1 rounded">
                   {timeString} / 3:00
                 </span>
               </div>
@@ -640,6 +652,47 @@ function PhoneMock({ active }: { active: number }) {
     };
   }, []);
 
+  const getHeaderDetails = (active: number) => {
+    const key = SCREENS[active].key;
+    switch (key) {
+      case "instagram":
+        return {
+          name: "Instagram",
+          icon: <Instagram className="h-2 w-2 text-pink-600 fill-transparent shrink-0" />,
+        };
+      case "twitter":
+        return {
+          name: "X.com",
+          icon: <Twitter className="h-2 w-2 text-black fill-black shrink-0" />,
+        };
+      case "facebook":
+        return {
+          name: "Facebook",
+          icon: <Facebook className="h-2 w-2 text-blue-600 fill-blue-600 shrink-0" />,
+        };
+      case "linkedin":
+        return {
+          name: "LinkedIn",
+          icon: <Linkedin className="h-2 w-2 text-blue-800 fill-blue-800 shrink-0" />,
+        };
+      case "youtube":
+        return {
+          name: "YouTube",
+          icon: <Youtube className="h-2 w-2 text-slate-800 fill-slate-800 shrink-0" />,
+        };
+      case "pinterest":
+        return {
+          name: "Pinterest",
+          icon: <Pin className="h-2 w-2 text-rose-600 fill-rose-600 shrink-0" />,
+        };
+      default:
+        return {
+          name: "SocialSuite",
+          icon: null,
+        };
+    }
+  };
+
   return (
     <div className="relative z-10 mx-auto w-full h-[507px] sm:h-[720px]">
       {/* 3D Real Human Hand holding phone PNG (Processed with transparent cutout and bottom fade) */}
@@ -661,9 +714,12 @@ function PhoneMock({ active }: { active: number }) {
           borderRadius: "2.0rem",
         }}
       >
-        <div className="flex items-center justify-between px-1 pb-2 text-[9px] font-bold text-gray-400">
+        <div className="flex items-center justify-between px-1.5 pb-2 text-[9px] font-bold text-gray-400">
           <span>9:41</span>
-          <span>SocialSuite</span>
+          <div className="flex items-center gap-1">
+            {getHeaderDetails(active).icon}
+            <span className="text-[8px] font-bold text-gray-500 leading-none">{getHeaderDetails(active).name}</span>
+          </div>
         </div>
         <div
           key={SCREENS[active].key}
@@ -677,153 +733,217 @@ function PhoneMock({ active }: { active: number }) {
 }
 
 type Float = {
-  className: string;
+  x: number;
+  y: number;
+  w: number;
   delay: string;
   children: React.ReactNode;
 };
 
 const CARDS: Float[] = [
   {
-    className: "lg:left-[-230px] lg:top-[5%] lg:w-[220px]",
-    delay: "0s",
+    x: -160,
+    y: 3,
+    w: 170,
+    delay: "0.1s",
     children: (
-      <div className="w-[190px] sm:w-[220px] rounded-2xl bg-white p-2.5 shadow-xl shadow-indigo-900/10 border border-gray-100 flex flex-col gap-2 text-left transition-all duration-350 hover:scale-[1.03] hover:shadow-indigo-900/15">
+      <div className="w-[150px] sm:w-[170px] rounded-2xl bg-white p-2.5 shadow-xl shadow-indigo-900/10 border border-gray-100 flex flex-col gap-1.5 text-left transition-all duration-350 hover:scale-[1.03] hover:shadow-indigo-900/15">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1.5">
-            <Youtube className="h-4 w-4 text-red-600 fill-red-600 shrink-0" />
-            <span className="text-[10px] font-extrabold uppercase tracking-wider text-gray-500">YouTube AI</span>
+          <div className="flex items-center gap-1">
+            <Youtube className="h-3.5 w-3.5 text-slate-800 fill-slate-800 dark:text-slate-200 dark:fill-slate-200 shrink-0" />
+            <span className="text-[8.5px] font-extrabold uppercase tracking-wider text-gray-500">YouTube AI</span>
           </div>
-          <span className="text-[9px] bg-red-50 text-red-600 font-bold px-1.5 py-0.5 rounded">SCHEDULER</span>
+          <span className="text-[7.5px] bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-200 font-bold px-1 py-0.5 rounded">AUTO</span>
         </div>
         <div
-          className="h-20 w-full rounded-lg bg-cover bg-center border border-gray-150"
+          className="h-14 w-full rounded-lg bg-cover bg-center border border-gray-150"
           style={{ backgroundImage: `url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=240&auto=format&fit=crop&q=80')` }}
         />
         <div>
-          <h4 className="text-[11px] font-extrabold text-gray-900 leading-tight">Video Chapters & Tags</h4>
-          <p className="text-[9px] text-gray-500 font-medium mt-0.5">Automated queue active</p>
+          <h4 className="text-[9.5px] font-extrabold text-gray-900 leading-tight">Chapters & Tags</h4>
+          <p className="text-[8px] text-gray-500 font-medium mt-0.5">Automated queue</p>
         </div>
       </div>
     ),
   },
   {
-    className: "lg:right-[-210px] lg:top-[5%] lg:w-[210px]",
+    x: 540,
+    y: 7,
+    w: 165,
     delay: "0.3s",
     children: (
-      <div className="w-[180px] sm:w-[210px] rounded-2xl bg-white p-2.5 shadow-xl shadow-indigo-900/10 border border-gray-100 flex flex-col gap-2 text-left transition-all duration-350 hover:scale-[1.03] hover:shadow-indigo-900/15">
-        <div className="flex items-center gap-1.5">
-          <Instagram className="h-4 w-4 text-pink-600 shrink-0" />
-          <span className="text-[10px] font-extrabold uppercase tracking-wider text-gray-500">@creator_vibe</span>
-        </div>
-        <div
-          className="h-24 w-full rounded-lg bg-cover bg-center border border-gray-150"
-          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1614741118887-7a4ee193a5fa?w=240&auto=format&fit=crop&q=80')` }}
-        />
-        <div className="flex items-center justify-between text-[9px] text-gray-500 font-bold">
-          <span>+3.2k reach today</span>
-          <span className="text-pink-600 text-[8px]">★ VIRAL</span>
-        </div>
-      </div>
-    ),
-  },
-  {
-    className: "lg:left-[160px] lg:top-[-110px] lg:w-[220px]",
-    delay: "1.8s",
-    children: (
-      <div className="w-[190px] sm:w-[220px] rounded-2xl bg-white p-2.5 shadow-xl shadow-indigo-900/10 border border-gray-100 flex flex-col gap-2 text-left transition-all duration-350 hover:scale-[1.03] hover:shadow-indigo-900/15">
-        <div className="flex items-center gap-1.5">
-          <Linkedin className="h-4 w-4 text-blue-800 fill-blue-800 shrink-0" />
-          <span className="text-[10px] font-extrabold uppercase tracking-wider text-gray-500">LinkedIn Lead</span>
+      <div className="w-[145px] sm:w-[165px] rounded-2xl bg-white p-2.5 shadow-xl shadow-indigo-900/10 border border-gray-100 flex flex-col gap-1.5 text-left transition-all duration-350 hover:scale-[1.03] hover:shadow-indigo-900/15">
+        <div className="flex items-center gap-1">
+          <Instagram className="h-3.5 w-3.5 text-pink-600 shrink-0" />
+          <span className="text-[8.5px] font-extrabold uppercase tracking-wider text-gray-500">Instagram</span>
         </div>
         <div
           className="h-16 w-full rounded-lg bg-cover bg-center border border-gray-150"
-          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1551434678-e076c223a692?w=240&auto=format&fit=crop&q=80')` }}
+          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1614741118887-7a4ee193a5fa?w=240&auto=format&fit=crop&q=80')` }}
         />
-        <div>
-          <h4 className="text-[11px] font-extrabold text-gray-900 leading-tight">B2B Outreach Engine</h4>
-          <p className="text-[9px] text-gray-500 font-medium mt-0.5">82% replies • 1.2k views</p>
+        <div className="flex items-center justify-between text-[8px] text-gray-500 font-bold">
+          <span>+3.2k reach today</span>
+          <span className="text-pink-600 text-[7px.5]">★ VIRAL</span>
         </div>
       </div>
     ),
   },
   {
-    className: "lg:left-[-320px] lg:top-[38%] lg:w-[230px]",
-    delay: "0.6s",
+    x: -240,
+    y: 26,
+    w: 150,
+    delay: "0.5s",
     children: (
-      <div className="w-[200px] sm:w-[230px] rounded-2xl bg-white p-2.5 shadow-xl shadow-indigo-900/10 border border-gray-100 flex flex-col gap-2 text-left transition-all duration-350 hover:scale-[1.03] hover:shadow-indigo-900/15">
-        <div className="flex items-center gap-1.5">
-          <Twitter className="h-4 w-4 text-black fill-black shrink-0" />
-          <span className="text-[10px] font-extrabold uppercase tracking-wider text-gray-500">X Thread Builder</span>
+      <div className="w-[130px] sm:w-[150px] rounded-xl bg-white p-2.5 shadow-lg border border-gray-150 text-left transition-all duration-350 hover:scale-[1.03]">
+        <div className="flex items-center gap-1">
+          <Linkedin className="h-3.5 w-3.5 text-blue-800 fill-blue-800 shrink-0" />
+          <span className="text-[8px] font-extrabold text-gray-500 uppercase">LinkedIn</span>
         </div>
-        <p className="text-[10px] text-gray-800 leading-snug font-medium">
-          "Auto-compose nested X threads from blogs with intelligent preview & media attachment."
+        <div className="mt-1">
+          <div className="text-[14px] font-black text-gray-900 tracking-tight leading-none">82% Replies</div>
+          <p className="text-[7.5px] text-emerald-600 font-bold mt-0.5">✓ Lead Engine</p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    x: -165,
+    y: 47,
+    w: 170,
+    delay: "0.7s",
+    children: (
+      <div className="w-[150px] sm:w-[170px] rounded-2xl bg-white p-2.5 shadow-xl shadow-indigo-900/10 border border-gray-100 flex flex-col gap-1.5 text-left transition-all duration-350 hover:scale-[1.03] hover:shadow-indigo-900/15">
+        <div className="flex items-center gap-1">
+          <Twitter className="h-3.5 w-3.5 text-black fill-black shrink-0" />
+          <span className="text-[8.5px] font-extrabold uppercase tracking-wider text-gray-500">X Threader</span>
+        </div>
+        <p className="text-[8.5px] text-gray-800 leading-snug font-medium">
+          "Auto-compose X threads with media sync & auto-link queue."
         </p>
-        <div className="flex items-center justify-between text-[9px] text-gray-500 font-bold border-t border-gray-100 pt-1.5">
-          <span className="text-emerald-600">✓ Ready to Schedule</span>
+        <div className="flex items-center justify-between text-[7.5px] text-gray-500 font-bold border-t border-gray-100 pt-1">
+          <span className="text-emerald-600">✓ Scheduled</span>
           <span>5 Posts</span>
         </div>
       </div>
     ),
   },
   {
-    className: "lg:right-[-310px] lg:top-[42%] lg:w-[220px]",
+    x: 625,
+    y: 34,
+    w: 150,
     delay: "0.9s",
     children: (
-      <div className="w-[190px] sm:w-[220px] rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 p-2.5 shadow-xl shadow-indigo-900/20 text-white flex flex-col gap-2 text-left transition-all duration-350 hover:scale-[1.03] hover:shadow-indigo-900/15 border border-transparent">
-        <div className="flex items-center gap-1.5">
-          <Facebook className="h-4 w-4 text-white fill-white shrink-0" />
-          <span className="text-[10px] font-bold uppercase tracking-wider opacity-85">FB Campaign</span>
+      <div className="w-[130px] sm:w-[150px] rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 p-2.5 shadow-lg text-white text-left transition-all duration-350 hover:scale-[1.03] border border-transparent">
+        <div className="flex items-center gap-1">
+          <Facebook className="h-3.5 w-3.5 text-white fill-white shrink-0" />
+          <span className="text-[8px] font-bold uppercase opacity-85">FB Ads</span>
         </div>
-        <div
-          className="h-16 w-full rounded-lg bg-cover bg-center opacity-90 border border-white/10"
-          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=240&auto=format&fit=crop&q=80')` }}
-        />
-        <div>
-          <h4 className="text-[10px] font-bold truncate">Q3 Retargeting Funnel</h4>
-          <p className="text-[9px] opacity-80 mt-0.5">CTR 4.8% • ROAS 4.2x</p>
+        <div className="mt-1">
+          <div className="text-[14px] font-black tracking-tight leading-none">4.2x ROAS</div>
+          <p className="text-[7.5px] opacity-80 mt-0.5">CTR 4.8% • Conv. +38%</p>
         </div>
       </div>
     ),
   },
   {
-    className: "lg:left-[-200px] lg:top-[74%] lg:w-[220px]",
-    delay: "1.2s",
+    x: -230,
+    y: 71,
+    w: 165,
+    delay: "1.1s",
     children: (
-      <div className="w-[190px] sm:w-[220px] rounded-2xl bg-white p-2.5 shadow-xl shadow-indigo-900/10 border border-gray-100 flex flex-col gap-2 text-left transition-all duration-350 hover:scale-[1.03] hover:shadow-indigo-900/15">
+      <div className="w-[145px] sm:w-[165px] rounded-2xl bg-white p-2.5 shadow-xl shadow-indigo-900/10 border border-gray-100 flex flex-col gap-1.5 text-left transition-all duration-350 hover:scale-[1.03] hover:shadow-indigo-900/15">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1.5">
-            <Pin className="h-4 w-4 text-rose-600 fill-rose-600 shrink-0" />
-            <span className="text-[10px] font-extrabold uppercase tracking-wider text-gray-500">Pinterest Sync</span>
+          <div className="flex items-center gap-1">
+            <PinterestIcon className="h-3.5 w-3.5 text-rose-600 fill-rose-600 shrink-0" />
+            <span className="text-[8.5px] font-extrabold uppercase tracking-wider text-gray-500">Pinterest</span>
           </div>
-          <span className="text-[9px] bg-rose-50 text-rose-600 font-bold px-1.5 py-0.5 rounded">SYNC</span>
+          <span className="text-[7.5px] bg-rose-50 text-rose-600 font-bold px-1 py-0.5 rounded">SYNC</span>
         </div>
         <div
-          className="h-20 w-full rounded-lg bg-cover bg-center border border-gray-150"
+          className="h-14 w-full rounded-lg bg-cover bg-center border border-gray-150"
           style={{ backgroundImage: `url('https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=240&auto=format&fit=crop&q=80')` }}
         />
         <div>
-          <h4 className="text-[11px] font-extrabold text-gray-900 leading-tight">Board Automation</h4>
-          <p className="text-[9px] text-gray-500 font-medium mt-0.5">+820% impressions</p>
+          <h4 className="text-[9.5px] font-extrabold text-gray-900 leading-tight">Board Automation</h4>
+          <p className="text-[8px] text-gray-500 font-medium mt-0.5">+820% saves</p>
         </div>
       </div>
     ),
   },
   {
-    className: "lg:right-[-210px] lg:top-[76%] lg:w-[220px]",
-    delay: "1.5s",
+    x: 540,
+    y: 58,
+    w: 170,
+    delay: "1.3s",
     children: (
-      <div className="w-[190px] sm:w-[220px] rounded-2xl bg-gradient-to-br from-indigo-950 to-purple-900 p-2.5 shadow-xl shadow-indigo-900/20 text-white flex flex-col gap-2 text-left transition-all duration-350 hover:scale-[1.03] hover:shadow-indigo-900/15 border border-transparent">
-        <div className="flex items-center gap-1.5">
-          <BarChart2 className="h-4 w-4 text-indigo-400 shrink-0" />
-          <span className="text-[10px] font-bold uppercase tracking-wider opacity-85">Workspace Growth</span>
+      <div className="w-[150px] sm:w-[170px] rounded-2xl bg-gradient-to-br from-indigo-950 to-purple-900 p-2.5 shadow-xl shadow-indigo-900/20 text-white flex flex-col gap-1.5 text-left transition-all duration-350 hover:scale-[1.03] hover:shadow-indigo-900/15 border border-transparent">
+        <div className="flex items-center gap-1">
+          <BarChart2 className="h-3.5 w-3.5 text-indigo-400 shrink-0" />
+          <span className="text-[8.5px] font-bold uppercase tracking-wider opacity-85">Workspace</span>
         </div>
-        <div className="flex items-end gap-2 my-1">
-          <span className="text-2xl font-black text-white tracking-tight">+148%</span>
-          <span className="text-[10px] text-emerald-400 font-extrabold pb-1">★ conversions</span>
+        <div className="flex items-end gap-1 my-0.5">
+          <span className="text-xl font-black text-white tracking-tight">+148%</span>
+          <span className="text-[8px] text-emerald-400 font-extrabold pb-0.5">★ conversion</span>
         </div>
-        <p className="text-[9.5px] opacity-80 leading-normal">
-          Organic impressions multiplied by 2.4x using smart post scheduling.
+        <p className="text-[8px] opacity-80 leading-normal">
+          Organic impressions up 2.4x using queue.
         </p>
+      </div>
+    ),
+  },
+  // Standalone Brand Logo Cards:
+  {
+    x: -260,
+    y: 12,
+    w: 52,
+    delay: "0.2s",
+    children: (
+      <div className="w-[45px] h-[45px] sm:w-[52px] sm:h-[52px] rounded-xl bg-black text-white flex items-center justify-center shadow-lg transition-all duration-350 hover:scale-110 hover:shadow-black/20">
+        <TiktokIcon className="h-5 w-5 fill-white shrink-0" />
+      </div>
+    ),
+  },
+  {
+    x: 465,
+    y: 13,
+    w: 52,
+    delay: "0.4s",
+    children: (
+      <div className="w-[45px] h-[45px] sm:w-[52px] sm:h-[52px] rounded-xl bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] text-white flex items-center justify-center shadow-lg transition-all duration-350 hover:scale-110 hover:shadow-pink-600/25">
+        <Instagram className="h-5.5 w-5.5 text-white stroke-[2.5px] shrink-0" />
+      </div>
+    ),
+  },
+  {
+    x: 720,
+    y: 23,
+    w: 52,
+    delay: "0.6s",
+    children: (
+      <div className="w-[45px] h-[45px] sm:w-[52px] sm:h-[52px] rounded-xl bg-[#0077b5] text-white flex items-center justify-center shadow-lg transition-all duration-350 hover:scale-110 hover:shadow-blue-600/25">
+        <Linkedin className="h-5 w-5 fill-white text-[#0077b5] shrink-0" />
+      </div>
+    ),
+  },
+  {
+    x: 460,
+    y: 49,
+    w: 52,
+    delay: "0.8s",
+    children: (
+      <div className="w-[45px] h-[45px] sm:w-[52px] sm:h-[52px] rounded-xl bg-[#1877f2] text-white flex items-center justify-center shadow-lg transition-all duration-350 hover:scale-110 hover:shadow-blue-600/25">
+        <Facebook className="h-5.5 w-5.5 fill-white text-[#1877f2] shrink-0" />
+      </div>
+    ),
+  },
+  {
+    x: -80,
+    y: 62,
+    w: 52,
+    delay: "1.0s",
+    children: (
+      <div className="w-[45px] h-[45px] sm:w-[52px] sm:h-[52px] rounded-xl bg-[#ff0000] text-white flex items-center justify-center shadow-lg transition-all duration-350 hover:scale-110 hover:shadow-red-600/25">
+        <Youtube className="h-5 w-5 fill-white text-[#ff0000] shrink-0" />
       </div>
     ),
   },
@@ -831,6 +951,32 @@ const CARDS: Float[] = [
 
 export default function HeroShowcase({ isDark }: { isDark: boolean }) {
   const [active, setActive] = useState(0);
+  const [mounted, setMounted] = useState(false);
+  const [showcaseVisible, setShowcaseVisible] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowcaseVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+
+    const el = document.getElementById("hero-showcase-section");
+    if (el) observer.observe(el);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!showcaseVisible) {
+      setMounted(false);
+      return;
+    }
+    const timer = setTimeout(() => setMounted(true), 250);
+    return () => clearTimeout(timer);
+  }, [showcaseVisible]);
 
   useEffect(() => {
     let timerId: any;
@@ -848,6 +994,8 @@ export default function HeroShowcase({ isDark }: { isDark: boolean }) {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       const now = Date.now();
+      
+      setScrollY(currentScrollY);
 
       // Bidirectional, rate-limited scroll listener
       if (now - lastScrollTime > 900 && Math.abs(currentScrollY - lastScrollY) > 5) {
@@ -874,7 +1022,7 @@ export default function HeroShowcase({ isDark }: { isDark: boolean }) {
   }, []);
 
   return (
-    <section className={`relative isolate overflow-hidden pt-0 pb-1 sm:pt-0.5 sm:pb-2 transition-all duration-[800ms] ease-in-out hero-section-transition ${isDark ? "bg-slate-950 dark-mode-active" : "bg-neutral-50"}`}>
+    <section id="hero-showcase-section" className={`relative isolate overflow-hidden pt-0 pb-1 sm:pt-0.5 sm:pb-2 transition-all duration-[800ms] ease-in-out hero-section-transition ${isDark ? "bg-slate-950 dark-mode-active" : "bg-neutral-50"}`}>
       <style>{`
         @keyframes hero-float {
           0%, 100% { transform: translateY(0); }
@@ -939,10 +1087,14 @@ export default function HeroShowcase({ isDark }: { isDark: boolean }) {
 
       <div className="relative mx-auto max-w-5xl px-6 flex flex-col items-center gap-0">
 
-        <div className="relative text-center w-full select-none z-0 mb-[-15px] sm:mb-[-30px]">
+        <div className="relative text-center w-full select-none z-0 mb-[-15px] sm:mb-[-30px] overflow-hidden">
           <span
             className="text-[6.5vw] sm:text-[5.5vw] font-black tracking-tighter uppercase bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-600 opacity-40 leading-none whitespace-nowrap inline-block"
-            style={{ transform: "scaleX(1.35)", transformOrigin: "center" }}
+            style={{ 
+              transform: `scaleX(1.35) translateX(${-scrollY * 0.08}px)`, 
+              transformOrigin: "center",
+              transition: "transform 0.15s cubic-bezier(0.1, 0.8, 0.2, 1)"
+            }}
           >
             SOCIAL
           </span>
@@ -953,31 +1105,59 @@ export default function HeroShowcase({ isDark }: { isDark: boolean }) {
           <div className="relative w-[380px] sm:w-[540px] translate-x-[20px] sm:translate-x-[35px]">
             <PhoneMock active={active} />
 
-            {CARDS.map((card, i) => (
-              <div
-                key={i}
-                className={`hero-float absolute hidden lg:block ${card.className}`}
-                style={{ animationDelay: card.delay }}
-              >
-                {card.children}
-              </div>
-            ))}
+            {CARDS.map((card, i) => {
+              const outerStyle = mounted
+                ? {
+                    left: `${card.x}px`,
+                    top: `${card.y}%`,
+                    width: `${card.w}px`,
+                    opacity: 1,
+                    transform: "scale(1)",
+                    transition: `all 1.2s cubic-bezier(0.16, 1, 0.3, 1) ${card.delay}`,
+                  }
+                : {
+                    left: "50%",
+                    top: "35%",
+                    width: `${card.w}px`,
+                    opacity: 0,
+                    transform: "scale(0.15) translate(-50%, -50%)",
+                    transition: "all 0.4s ease-in-out",
+                  };
+
+              return (
+                <div
+                  key={i}
+                  className="absolute hidden lg:block"
+                  style={outerStyle}
+                >
+                  <div className="hero-float" style={{ animationDelay: card.delay }}>
+                    {card.children}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
 
-        <div className="relative text-center w-full select-none z-25 -mt-40 sm:-mt-106">
+        <div className="relative text-center w-full select-none z-25 -mt-40 sm:-mt-106 overflow-hidden">
           <span
             className="text-[6.5vw] sm:text-[5.5vw] font-black tracking-tighter uppercase bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-600 opacity-95 leading-none whitespace-nowrap inline-block"
-            style={{ transform: "scaleX(1.35)", transformOrigin: "center" }}
+            style={{ 
+              transform: `scaleX(1.35) translateX(${scrollY * 0.08}px)`, 
+              transformOrigin: "center",
+              transition: "transform 0.15s cubic-bezier(0.1, 0.8, 0.2, 1)"
+            }}
           >
             SUITE
           </span>
         </div>
 
-        {/* stacked mobile fallback: show cards in a row below phone on small screens */}
-        <div className="mt-4 flex flex-wrap justify-center gap-3 lg:hidden">
+        {/* stacked mobile fallback: horizontally scrollable snap-slider on small screens */}
+        <div className="mt-8 w-full overflow-x-auto no-scrollbar flex flex-nowrap gap-4 px-6 snap-x snap-mandatory lg:hidden scroll-smooth">
           {CARDS.map((card, i) => (
-            <div key={i}>{card.children}</div>
+            <div key={i} className="snap-center shrink-0 pb-4">
+              {card.children}
+            </div>
           ))}
         </div>
 
