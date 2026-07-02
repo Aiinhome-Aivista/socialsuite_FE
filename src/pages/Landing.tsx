@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Sparkles, ArrowRight, Activity, Globe, Zap, Sun, Moon } from "lucide-react";
+import { Sparkles, ArrowRight, Activity, Globe, Zap, Sun, Moon, Calendar, PieChart } from "lucide-react";
 import { getToken } from "../lib/api";
-import HeroShowcase from "./HeroShowcase"; // adjust path to wherever you place the file
-import WorkflowSection from "./Workflowsection"; // adjust path to wherever you place the file
-import WhySection from "./WhySection"; // adjust path to wherever you place the file
-import Footer from "./Footer"; // adjust path to wherever you place the file
+import HeroShowcase from "./HeroShowcase"; 
+import WorkflowSection from "./Workflowsection";
+import WhySection from "./WhySection";
+import CTASection from "./CTASection";
+import Footer from "./Footer";
 
 export default function Landing() {
   const isLoggedIn = !!getToken();
@@ -217,44 +218,91 @@ export default function Landing() {
 
         {/* Features Cards Grid */}
         <div id="features" className="relative z-10 max-w-7xl mx-auto px-6 mt-28">
-          <div className="grid md:grid-cols-3 gap-8">
-            <div 
-              className={`bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-3xl p-8 shadow-xl shadow-indigo-900/5 border border-white/50 dark:border-slate-800/40 transition-all duration-[900ms] ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-900/10 group ${
+          {/* Header row */}
+          <div className="mb-10 text-center">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-snug whitespace-nowrap">
+              Powerful tools to{" "}
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600">
+                simplify your workflow
+              </span>
+            </h2>
+            <p className="text-gray-500 font-medium text-lg sm:text-xl mt-4 max-w-2xl mx-auto">
+              Everything you need to create, schedule, analyze and grow your brand.
+            </p>
+          </div>
+
+          {/* Cards */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div
+              className={`bg-white dark:bg-slate-800/60 rounded-2xl p-6 border border-gray-100 dark:border-slate-700/50 shadow-sm transition-all duration-[900ms] ease-out hover:-translate-y-1 hover:shadow-lg group ${
                 showFeatures ? "opacity-100 translate-x-0" : "opacity-0 translate-x-20"
               }`}
               style={{ transitionDelay: "100ms" }}
             >
-              <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <Globe className="h-7 w-7" />
+              <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                <Globe className="h-6 w-6" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Universal Connectors</h3>
-              <p className="text-gray-600 font-medium leading-relaxed">Link your Facebook, Instagram, X, LinkedIn, Pinterest and YouTube seamlessly.</p>
+              <h3 className="text-base font-bold text-gray-900 mb-2">Universal Connectors</h3>
+              <p className="text-sm text-gray-500 font-medium leading-relaxed mb-4">
+                Connect all your favorite platforms in one place. Instagram, X, LinkedIn, Facebook, YouTube & more.
+              </p>
+              <a href="#features" className="inline-flex items-center gap-1.5 text-sm font-bold text-indigo-600 hover:text-indigo-700 transition-colors">
+                Learn more <ArrowRight className="h-3.5 w-3.5" />
+              </a>
             </div>
 
-            <div 
-              className={`bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-3xl p-8 shadow-xl shadow-indigo-900/5 border border-white/50 dark:border-slate-800/40 transition-all duration-[900ms] ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-900/10 group ${
+            <div
+              className={`bg-white dark:bg-slate-800/60 rounded-2xl p-6 border border-gray-100 dark:border-slate-700/50 shadow-sm transition-all duration-[900ms] ease-out hover:-translate-y-1 hover:shadow-lg group ${
                 showFeatures ? "opacity-100 translate-x-0" : "opacity-0 translate-x-20"
               }`}
               style={{ transitionDelay: "250ms" }}
             >
-              <div className="w-14 h-14 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <Zap className="h-7 w-7" />
+              <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                <Sparkles className="h-6 w-6" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">AI-Powered Creation</h3>
-              <p className="text-gray-600 font-medium leading-relaxed">Generate captivating captions, tags, and media instantly tailored for each platform.</p>
+              <h3 className="text-base font-bold text-gray-900 mb-2">AI-Powered Creation</h3>
+              <p className="text-sm text-gray-500 font-medium leading-relaxed mb-4">
+                Generate captions, hashtags, reels ideas and more with our AI assistant in seconds.
+              </p>
+              <a href="#features" className="inline-flex items-center gap-1.5 text-sm font-bold text-indigo-600 hover:text-indigo-700 transition-colors">
+                Learn more <ArrowRight className="h-3.5 w-3.5" />
+              </a>
             </div>
 
-            <div 
-              className={`bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-3xl p-8 shadow-xl shadow-indigo-900/5 border border-white/50 dark:border-slate-800/40 transition-all duration-[900ms] ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-900/10 group ${
+            <div
+              className={`bg-white dark:bg-slate-800/60 rounded-2xl p-6 border border-gray-100 dark:border-slate-700/50 shadow-sm transition-all duration-[900ms] ease-out hover:-translate-y-1 hover:shadow-lg group ${
                 showFeatures ? "opacity-100 translate-x-0" : "opacity-0 translate-x-20"
               }`}
               style={{ transitionDelay: "400ms" }}
             >
-              <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <Activity className="h-7 w-7" />
+              <div className="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                <Calendar className="h-6 w-6" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Deep Analytics</h3>
-              <p className="text-gray-600 font-medium leading-relaxed">Track your growth with beautiful, easy-to-understand metrics and consolidated dashboards.</p>
+              <h3 className="text-base font-bold text-gray-900 mb-2">Smart Scheduling</h3>
+              <p className="text-sm text-gray-500 font-medium leading-relaxed mb-4">
+                Plan, schedule and publish content at the perfect time across all platforms.
+              </p>
+              <a href="#features" className="inline-flex items-center gap-1.5 text-sm font-bold text-indigo-600 hover:text-indigo-700 transition-colors">
+                Learn more <ArrowRight className="h-3.5 w-3.5" />
+              </a>
+            </div>
+
+            <div
+              className={`bg-white dark:bg-slate-800/60 rounded-2xl p-6 border border-gray-100 dark:border-slate-700/50 shadow-sm transition-all duration-[900ms] ease-out hover:-translate-y-1 hover:shadow-lg group ${
+                showFeatures ? "opacity-100 translate-x-0" : "opacity-0 translate-x-20"
+              }`}
+              style={{ transitionDelay: "550ms" }}
+            >
+              <div className="w-12 h-12 rounded-xl bg-orange-50 text-orange-500 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                <PieChart className="h-6 w-6" />
+              </div>
+              <h3 className="text-base font-bold text-gray-900 mb-2">Deep Analytics</h3>
+              <p className="text-sm text-gray-500 font-medium leading-relaxed mb-4">
+                Track performance with beautiful reports and actionable insights to grow your audience.
+              </p>
+              <a href="#features" className="inline-flex items-center gap-1.5 text-sm font-bold text-indigo-600 hover:text-indigo-700 transition-colors">
+                Learn more <ArrowRight className="h-3.5 w-3.5" />
+              </a>
             </div>
           </div>
         </div>
@@ -269,6 +317,9 @@ export default function Landing() {
       <div className="w-full py-28 bg-white dark:bg-neutral-900 transition-colors duration-[800ms]">
         <WhySection />
       </div>
+
+      {/* Section 5: CTA block */}
+      <CTASection />
       <Footer />
 
       {/* Dynamic Landing Page Theme Transitions */}

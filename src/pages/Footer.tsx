@@ -30,9 +30,9 @@ function Pinterest({ className }: { className?: string }) {
  * Footer
  * Place directly below <WhySection /> in Landing.tsx (last element in the page).
  *
- * Dark navy bar matching the reference: copyright on the left with a legal
- * link row beneath it, social icon circles on the right. Recolored to the
- * site's indigo-900 to tie into the existing palette instead of plain navy.
+ * Indigo-to-purple gradient bar matching the site's accent gradient:
+ * copyright on the left with a legal link row beneath it, "supports
+ * these platforms" label stacked above the social icon circles, right-aligned.
  */
 
 const LINKS = [
@@ -52,8 +52,8 @@ const SOCIALS = [
 
 export default function Footer() {
   return (
-    <footer className="relative z-10 bg-[#1a1342]">
-      <div className="mx-auto px-8 pt-6">
+    <footer className="relative z-10 bg-gradient-to-r from-indigo-700 to-purple-600">
+      <div className="mx-auto px-8 py-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-8">
           <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm font-bold">
             {LINKS.map((link, i) => (
@@ -66,22 +66,24 @@ export default function Footer() {
             ))}
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 sm:ml-auto sm:justify-end">
-            <p className="text-indigo-200 text-sm font-bold">Social suite supports these platforms</p>
-            {SOCIALS.map(({ icon: Icon, label }) => (
-              <span
-                key={label}
-                aria-label={label}
-                className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center text-white transition-all hover:bg-gradient-to-br hover:from-indigo-500 hover:to-purple-500 hover:-translate-y-0.5"
-              >
-                <Icon className="h-4 w-4" />
-              </span>
-            ))}
+          <div className="flex flex-col gap-3 sm:ml-auto">
+            <p className="text-indigo-200 text-sm font-bold text-center">Social suite supports these platforms</p>
+            <div className="flex flex-wrap items-center gap-3 justify-end">
+              {SOCIALS.map(({ icon: Icon, label }) => (
+                <span
+                  key={label}
+                  aria-label={label}
+                  className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center text-white transition-all hover:bg-gradient-to-br hover:from-indigo-500 hover:to-purple-500 hover:-translate-y-0.5"
+                >
+                  <Icon className="h-4 w-4" />
+                </span>
+              ))}
+            </div>
           </div>
         </div>
 
-        <p className="text-white text-sm text-center py-6">
-          Copyright ©{new Date().getFullYear()} SocialSuite
+        <p className="text-white text-sm text-center">
+          All rights reserved. Copyright ©{new Date().getFullYear()} SocialSuite
         </p>
       </div>
     </footer>

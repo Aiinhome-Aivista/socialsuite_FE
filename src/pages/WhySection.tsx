@@ -167,12 +167,12 @@ export default function WhySection() {
   }, []);
 
   return (
-    <section className="relative z-10 max-w-6xl mx-auto px-6 pb-32">
+    <section className="relative z-10 max-w-7xl mx-auto px-2 pb-10">
       <div className="gsap-why-text-block text-center mb-16">
-        <h2 className="gsap-why-title text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight mb-5 opacity-0">
+        <h2 className="gsap-why-title text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-5 opacity-0">
           Why SocialSuite?
         </h2>
-        <p className="gsap-why-body max-w-2xl mx-auto text-base sm:text-lg text-gray-600 font-medium leading-relaxed opacity-0">
+        <p className="gsap-why-body max-w-2xl mx-auto text-lg sm:text-xl text-gray-600 font-medium leading-relaxed opacity-0">
           The right tools are only part of the equation. SocialSuite combines powerful social
           media management and intelligence, award-winning customer support, enterprise-grade
           security, and industry-leading service to help you move faster with confidence.
@@ -183,8 +183,8 @@ export default function WhySection() {
         {COLUMNS.map((col) => (
           <div key={col.title} className="gsap-why-col-card text-center md:text-left opacity-0">
             <div className="mb-5 flex justify-center md:justify-start">{col.icon}</div>
-            <h3 className="text-xl font-extrabold text-gray-900 mb-3 leading-snug">{col.title}</h3>
-            <p className="text-gray-600 font-medium leading-relaxed mb-6">{col.body}</p>
+            <h3 className="text-2xl font-extrabold text-gray-900 mb-3 leading-snug">{col.title}</h3>
+            <p className="text-lg text-gray-600 font-medium leading-relaxed mb-6">{col.body}</p>
             <button className="inline-flex items-center gap-2 rounded-full border border-gray-300 px-6 py-2.5 text-sm font-bold text-gray-900 transition-all hover:border-gray-900 hover:bg-gray-900 hover:text-white group">
               {col.cta}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
