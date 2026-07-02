@@ -126,15 +126,15 @@ export default function WorkflowSection() {
   }, []);
 
   return (
-    <section className="relative z-10 max-w-7xl mx-auto px-6 pb-32">
+    <section className="relative z-10 max-w-7xl mx-auto px-6 pb-27">
       <div className="text-center mb-20">
-        <h2 className="gsap-fade-header-workflow text-3xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">
+        <h2 className="gsap-fade-header-workflow text-4xl md:text-6xl font-extrabold text-gray-900 tracking-tight mb-4">
           One suite.{" "}
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600">
             Every social workflow.
           </span>
         </h2>
-        <p className="max-w-2xl mx-auto text-lg text-gray-600 font-medium">
+        <p className="max-w-2xl mx-auto text-xl text-gray-600 font-medium">
           Understand what's happening, know what to do next, and take action — all from one connected suite.
         </p>
       </div>
@@ -211,10 +211,10 @@ function WorkflowRow({ row, i }: { row: typeof ROWS[0]; i: number }) {
         <span className="inline-block text-xs font-bold uppercase tracking-wider text-indigo-600 mb-3">
           {row.eyebrow}
         </span>
-        <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-tight mb-4">
+        <h3 className="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight mb-4">
           {row.title}
         </h3>
-        <p className="text-gray-600 font-medium leading-relaxed">{row.body}</p>
+        <p className="text-lg text-gray-600 font-medium leading-relaxed">{row.body}</p>
       </div>
 
       {/* Animated image mockup container */}
