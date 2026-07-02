@@ -1114,7 +1114,7 @@ export default function HeroShowcase({ isDark }: { isDark: boolean }) {
 
       <div className="relative mx-auto max-w-5xl px-6 flex flex-col items-center gap-0">
 
-        <div className="relative text-center w-full select-none z-0  sm:-mt-5 mb-[-20px] sm:mb-[-40px] overflow-hidden">
+        <div className="relative text-center w-full select-none z-0  sm:-mt-4 mb-[-20px] sm:mb-[-40px] overflow-hidden">
           <span
             className="text-[9vw] sm:text-[8vw] font-black tracking-tighter uppercase bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-600 opacity-40 leading-none whitespace-nowrap inline-block"
             style={{
