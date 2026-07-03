@@ -62,7 +62,7 @@ export default function CTASection() {
         }
       `}</style>
 
-      <div className="rounded-3xl bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-600 px-8 py-8 sm:px-12 sm:py-10 shadow-xl shadow-indigo-900/10 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 overflow-hidden">
+      <div className="rounded-3xl bg-gradient-to-r from-indigo-700 via-pink-700 to-yellow-600 px-8 py-8 sm:px-12 sm:py-10 shadow-xl shadow-indigo-900/10 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 overflow-hidden">
         <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-10 text-center md:text-left">
           {/* Heading: Left & Right slide-in word by word */}
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white leading-snug">

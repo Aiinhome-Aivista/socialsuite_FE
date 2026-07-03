@@ -153,12 +153,13 @@ export default function Pricing() {
           <span className="flex h-2 w-2 rounded-full bg-indigo-600 animate-pulse" />
           <span className="text-xs font-bold text-indigo-900 uppercase tracking-wider">14-day free trial · No card required</span>
         </div>
-        <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 tracking-tight leading-tight mb-5">
-          Simple pricing.{" "}
+        <h1 className="text-5xl md:text-7xl font-extrabold text-gray-900 tracking-tight leading-tight mb-2">
+          Simple pricing{" "}</h1>
+        <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight mb-5">
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600">
-            Room to grow.
+            Room to grow
           </span>
-        </h1>
+        </h2>
         <p className="text-lg text-gray-600 font-medium leading-relaxed">
           Pick a plan that fits your team today, and upgrade the moment you need more.
         </p>
@@ -167,23 +168,20 @@ export default function Pricing() {
         <div className="mt-10 inline-flex items-center gap-1 rounded-full bg-white border border-gray-200 p-1 shadow-sm">
           <button
             onClick={() => setBilling("monthly")}
-            className={`px-5 py-2 rounded-full text-sm font-bold transition-all ${
-              billing === "monthly" ? "bg-gray-900 text-white shadow" : "text-gray-600 hover:text-gray-900"
-            }`}
+            className={`px-5 py-2 rounded-full text-sm font-bold transition-all ${billing === "monthly" ? "bg-gray-900 text-white shadow" : "text-gray-600 hover:text-gray-900"
+              }`}
           >
             Monthly
           </button>
           <button
             onClick={() => setBilling("yearly")}
-            className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-bold transition-all ${
-              billing === "yearly" ? "bg-gray-900 text-white shadow" : "text-gray-600 hover:text-gray-900"
-            }`}
+            className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-bold transition-all ${billing === "yearly" ? "bg-gray-900 text-white shadow" : "text-gray-600 hover:text-gray-900"
+              }`}
           >
             Yearly
             <span
-              className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${
-                billing === "yearly" ? "bg-white/20 text-white" : "bg-emerald-100 text-emerald-700"
-              }`}
+              className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${billing === "yearly" ? "bg-white/20 text-white" : "bg-emerald-100 text-emerald-700"
+                }`}
             >
               SAVE 20%
             </span>
@@ -199,11 +197,10 @@ export default function Pricing() {
             return (
               <div
                 key={plan.id}
-                className={`relative rounded-3xl p-8 transition-all ${
-                  plan.highlight
+                className={`relative rounded-3xl p-8 transition-all ${plan.highlight
                     ? "bg-gray-900 shadow-2xl shadow-indigo-900/30 md:-translate-y-4 border border-gray-800"
                     : "bg-white/80 backdrop-blur-xl shadow-xl shadow-indigo-900/5 border border-white/50 hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-900/10"
-                }`}
+                  }`}
               >
                 {plan.highlight && (
                   <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 px-4 py-1 text-[11px] font-extrabold uppercase tracking-wider text-white shadow-lg">
@@ -232,11 +229,10 @@ export default function Pricing() {
 
                 <button
                   onClick={() => handleSelectPlan(plan.id)}
-                  className={`w-full inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold transition-all mb-8 ${
-                    plan.highlight
+                  className={`w-full inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold transition-all mb-8 ${plan.highlight
                       ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5"
                       : "bg-gray-900 text-white hover:bg-gray-800 hover:-translate-y-0.5"
-                  }`}
+                    }`}
                 >
                   Start free trial <ArrowRight className="h-4 w-4" />
                 </button>
@@ -324,9 +320,8 @@ export default function Pricing() {
                 >
                   <span className="font-bold text-gray-900">{item.q}</span>
                   <span
-                    className={`shrink-0 h-6 w-6 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 transition-transform ${
-                      open ? "rotate-45" : ""
-                    }`}
+                    className={`shrink-0 h-6 w-6 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 transition-transform ${open ? "rotate-45" : ""
+                      }`}
                   >
                     +
                   </span>

@@ -31,19 +31,16 @@ const COLUMNS = [
     icon: <OwlIcon className="h-12 w-12 text-gray-900" />,
     title: "8 years and 50,000 teams",
     body: "SocialSuite started as a side project and is now trusted by teams worldwide. Thousands of brands use it daily to post, track, and out-perform their competitors on social media.",
-    cta: "More about us",
   },
   {
     icon: <SparklesIcon className="h-12 w-12 text-gray-900" strokeWidth={1.5} />,
     title: "The ultimate AI for social media",
     body: "SocialSuite helps you speed up every part of social media management — writing, posting, messaging, and analytics. Our AI was designed by social pros for social pros.",
-    cta: "Learn more",
   },
   {
     icon: <Plug className="h-12 w-12 text-gray-900 -rotate-12" strokeWidth={1.5} />,
     title: "A growing library of integrations",
     body: "Connect dozens of integrations to bring all your favorite tools into the SocialSuite dashboard, so your whole stack works together in one place.",
-    cta: "Explore integrations",
   },
 ];
 
@@ -185,10 +182,6 @@ export default function WhySection() {
             <div className="mb-5 flex justify-center md:justify-start">{col.icon}</div>
             <h3 className="text-2xl font-extrabold text-gray-900 mb-3 leading-snug">{col.title}</h3>
             <p className="text-lg text-gray-600 font-medium leading-relaxed mb-6">{col.body}</p>
-            <button className="inline-flex items-center gap-2 rounded-full border border-gray-300 px-6 py-2.5 text-sm font-bold text-gray-900 transition-all hover:border-gray-900 hover:bg-gray-900 hover:text-white group">
-              {col.cta}
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </button>
           </div>
         ))}
       </div>

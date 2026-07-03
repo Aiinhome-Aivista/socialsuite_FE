@@ -230,9 +230,6 @@ export default function Landing() {
               <p className="text-sm text-gray-500 font-medium leading-relaxed mb-4">
                 Connect all your favorite platforms in one place. Instagram, X, LinkedIn, Facebook, YouTube & more.
               </p>
-              <a href="#features" className="inline-flex items-center gap-1.5 text-sm font-bold text-indigo-600 hover:text-indigo-700 transition-colors">
-                Learn more <ArrowRight className="h-3.5 w-3.5" />
-              </a>
             </div>
 
             <div
@@ -248,9 +245,6 @@ export default function Landing() {
               <p className="text-sm text-gray-500 font-medium leading-relaxed mb-4">
                 Generate captions, hashtags, reels ideas and more with our AI assistant in seconds.
               </p>
-              <a href="#features" className="inline-flex items-center gap-1.5 text-sm font-bold text-indigo-600 hover:text-indigo-700 transition-colors">
-                Learn more <ArrowRight className="h-3.5 w-3.5" />
-              </a>
             </div>
 
             <div
@@ -266,9 +260,6 @@ export default function Landing() {
               <p className="text-sm text-gray-500 font-medium leading-relaxed mb-4">
                 Plan, schedule and publish content at the perfect time across all platforms.
               </p>
-              <a href="#features" className="inline-flex items-center gap-1.5 text-sm font-bold text-indigo-600 hover:text-indigo-700 transition-colors">
-                Learn more <ArrowRight className="h-3.5 w-3.5" />
-              </a>
             </div>
 
             <div
@@ -284,9 +275,6 @@ export default function Landing() {
               <p className="text-sm text-gray-500 font-medium leading-relaxed mb-4">
                 Track performance with beautiful reports and actionable insights to grow your audience.
               </p>
-              <a href="#features" className="inline-flex items-center gap-1.5 text-sm font-bold text-indigo-600 hover:text-indigo-700 transition-colors">
-                Learn more <ArrowRight className="h-3.5 w-3.5" />
-              </a>
             </div>
           </div>
         </div>
