@@ -890,8 +890,8 @@ const CARDS: Float[] = [
     w: 52,
     delay: "1.1s",
     children: (
-      <div className="w-[45px] h-[45px] sm:w-[52px] sm:h-[52px] rounded-full bg-black text-white flex items-center justify-center shadow-lg transition-all duration-350 hover:scale-110 hover:shadow-black/20">
-        <ThreadsIcon className="h-5.5 w-5.5 text-white shrink-0" />
+      <div className="w-[45px] h-[45px] sm:w-[52px] sm:h-[52px] rounded-full bg-[#e60023] text-white flex items-center justify-center shadow-lg transition-all duration-350 hover:scale-110 hover:shadow-red-600/25">
+        <PinterestIcon className="h-5.5 w-5.5 fill-white text-white shrink-0" />
       </div>
     ),
   },
