@@ -163,7 +163,7 @@ export default function Landing() {
       <HeroShowcase isDark={isDark} />
 
       {/* Section 2: Hero Content & Feature Highlights */}
-      <div className="w-full bg-gradient-to-br from-slate-100 via-indigo-50 to-indigo-100/70 dark:from-slate-900 dark:via-indigo-950/40 dark:to-slate-950 border-y border-gray-200/70 dark:border-neutral-800/60 py-20 transition-colors duration-[800ms]">
+      <div className="w-full bg-gradient-to-br from-slate-200 via-indigo-100/60 to-indigo-200/50 dark:from-slate-950 dark:via-indigo-900/35 dark:to-slate-900 border-y border-gray-300 dark:border-neutral-800 py-20 transition-colors duration-[800ms]">
         {/* Hero Text Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-6 text-center animate-in fade-in slide-in-from-bottom-8 duration-700">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 dark:bg-slate-900/60 border border-indigo-100/60 dark:border-slate-800/60 backdrop-blur-md mb-8 shadow-sm">
@@ -293,12 +293,12 @@ export default function Landing() {
       </div>
 
       {/* Section 3: Workflow alternations block */}
-      <div className="w-full py-28 bg-gradient-to-tr from-indigo-100/80 via-purple-100/50 to-pink-100/50 dark:from-indigo-950/60 dark:via-purple-950/30 dark:to-slate-950 border-b border-indigo-100/60 dark:border-neutral-800/40 transition-colors duration-[800ms]">
+      <div className="w-full py-28 bg-gradient-to-tr from-indigo-200/90 via-purple-200/70 to-pink-200/70 dark:from-indigo-950 dark:via-purple-900/40 dark:to-slate-950 border-b border-indigo-200/60 dark:border-neutral-800/60 transition-colors duration-[800ms]">
         <WorkflowSection />
       </div>
 
       {/* Section 4: Why SocialSuite block */}
-      <div className="w-full py-28 bg-gradient-to-br from-pink-50/40 via-purple-50/40 to-slate-100/80 dark:from-neutral-900 dark:via-purple-950/10 dark:to-slate-950 transition-colors duration-[800ms]">
+      <div className="w-full py-28 bg-gradient-to-br from-pink-100/80 via-purple-100/70 to-slate-200/90 dark:from-slate-950 dark:via-purple-900/30 dark:to-slate-950 transition-colors duration-[800ms]">
         <WhySection />
       </div>
 

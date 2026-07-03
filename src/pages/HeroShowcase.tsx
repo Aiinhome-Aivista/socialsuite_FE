@@ -1055,7 +1055,7 @@ export default function HeroShowcase({ isDark }: { isDark: boolean }) {
   }, []);
 
   return (
-    <section id="hero-showcase-section" className={`relative isolate overflow-hidden pt-0 pb-1 sm:pt-0.5 sm:pb-2 transition-all duration-[800ms] ease-in-out hero-section-transition ${isDark ? "bg-gradient-to-b from-slate-950 via-rose-950/20 to-slate-950 dark-mode-active" : "bg-gradient-to-b from-white via-pink-100/40 to-pink-50/50"}`}>
+    <section id="hero-showcase-section" className={`relative isolate overflow-hidden pt-0 pb-1 sm:pt-0.5 sm:pb-2 transition-all duration-[800ms] ease-in-out hero-section-transition ${isDark ? "bg-gradient-to-b from-slate-950 via-rose-900/25 to-slate-950 dark-mode-active" : "bg-gradient-to-b from-white via-pink-100/60 to-pink-100/40"}`}>
       <style>{`
         @keyframes hero-float {
           0%, 100% { transform: translateY(0); }
