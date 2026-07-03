@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { Star, Sparkles, TrendingUp, Heart, MessageCircle, Youtube, Facebook, Twitter, Instagram, Linkedin, Timer, Pin, BarChart2, ThumbsUp, MessageSquare, Share2 } from "lucide-react";
+import { Star, Sparkles, TrendingUp, Heart, MessageCircle, Facebook, Twitter, Instagram, Linkedin, Timer, Pin, BarChart2, ThumbsUp, MessageSquare, Share2 } from "lucide-react";
 import humanHandPhone from "../human_hand_phone.png";
 
 const PinterestIcon = ({ className }: { className?: string }) => (
@@ -11,6 +11,12 @@ const PinterestIcon = ({ className }: { className?: string }) => (
 const TiktokIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" className={className} fill="currentColor">
     <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.81-.8-3.89-1.8-.16-.15-.31-.31-.46-.47-.03 1.94-.01 3.89-.02 5.83 0 1.63-.33 3.32-1.3 4.67-1.12 1.57-2.99 2.59-4.93 2.74-2.12.18-4.38-.56-5.74-2.23-1.45-1.74-1.74-4.32-1-6.42.66-1.92 2.37-3.48 4.39-3.9 1.02-.21 2.09-.11 3.08.18v4.09c-.61-.26-1.32-.34-1.96-.2-.93.18-1.73.95-1.91 1.88-.26 1.16.42 2.45 1.55 2.78.85.26 1.86.06 2.47-.58.55-.54.69-1.36.68-2.11.02-3.83 0-7.66.01-11.49z" />
+  </svg>
+);
+
+const YoutubeIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="currentColor">
+    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
   </svg>
 );
 
@@ -536,7 +542,7 @@ const SCREENS = [
             <div className="flex flex-col gap-1 bg-white">
               <div className="h-28 rounded-xl overflow-hidden relative bg-gray-100">
                 <SafeVideo
-                  src="https://vjs.zencdn.net/v/oceans.mp4"
+                  src="https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/car-detection.mp4"
                   fallbackImg="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=240&auto=format&fit=crop&q=80"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
@@ -548,7 +554,7 @@ const SCREENS = [
             <div className="flex flex-col gap-1 bg-white">
               <div className="h-24 rounded-xl overflow-hidden relative bg-gray-100">
                 <SafeVideo
-                  src="https://raw.githubusercontent.com/mediaelement/mediaelement-files/master/guadeloupe.mp4"
+                  src="https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/classroom.mp4"
                   fallbackImg="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=240&auto=format&fit=crop&q=80"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
@@ -560,7 +566,7 @@ const SCREENS = [
             <div className="flex flex-col gap-1 bg-white">
               <div className="h-28 rounded-xl overflow-hidden relative bg-gray-100">
                 <SafeVideo
-                  src="https://vjs.zencdn.net/v/oceans.mp4"
+                  src="https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/head-pose-face-detection-female.mp4"
                   fallbackImg="https://images.unsplash.com/photo-1472214222541-d510753a8707?w=240&auto=format&fit=crop&q=80"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
@@ -705,7 +711,7 @@ function PhoneMock({ active }: { active: number }) {
       case "youtube":
         return {
           name: "YouTube",
-          icon: <Youtube className="h-2 w-2 text-slate-800 fill-slate-800 shrink-0" />,
+          icon: <YoutubeIcon className="h-2 w-2 text-[#ff0000] shrink-0" />,
         };
       case "pinterest":
         return {
@@ -777,7 +783,7 @@ const CARDS: Float[] = [
       <div className="w-[150px] sm:w-[170px] rounded-2xl bg-white p-2.5 shadow-xl shadow-indigo-900/10 border border-gray-100 flex flex-col gap-1.5 text-left transition-all duration-350 hover:scale-[1.03] hover:shadow-indigo-900/15">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1">
-            <Youtube className="h-3.5 w-3.5 text-slate-800 fill-slate-800 dark:text-slate-200 dark:fill-slate-200 shrink-0" />
+            <YoutubeIcon className="h-3.5 w-3.5 text-[#ff0000] shrink-0" />
             <span className="text-[8.5px] font-extrabold uppercase tracking-wider text-gray-500">YouTube AI</span>
           </div>
           <span className="text-[7.5px] bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-200 font-bold px-1 py-0.5 rounded">AUTO</span>
@@ -970,7 +976,7 @@ const CARDS: Float[] = [
     delay: "1.0s",
     children: (
       <div className="w-[45px] h-[45px] sm:w-[52px] sm:h-[52px] rounded-full bg-[#ff0000] text-white flex items-center justify-center shadow-lg transition-all duration-350 hover:scale-110 hover:shadow-red-600/25">
-        <Youtube className="h-5 w-5 fill-white text-[#ff0000] shrink-0" />
+        <YoutubeIcon className="h-5 w-5 text-white shrink-0" />
       </div>
     ),
   },
