@@ -131,7 +131,7 @@ export default function Landing() {
       <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-purple-500/20 rounded-full blur-[150px] translate-y-1/3"></div>
 
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-neutral-50/80 backdrop-blur-md border-b border-gray-200/60 animate-in fade-in slide-in-from-top-4 duration-500">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-neutral-50/80 backdrop-blur-md shadow-none animate-in fade-in slide-in-from-top-4 duration-500">
         <div className="max-w-7xl mx-auto px-6 py-2.5 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="p-2 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl shadow-lg shadow-indigo-500/30">
@@ -313,10 +313,12 @@ export default function Landing() {
         }
         nav {
           transition: background-color 0.8s ease-in-out, border-color 0.8s ease-in-out;
+          box-shadow: none !important;
         }
         .dark-mode-active nav {
           background-color: rgba(3, 7, 18, 0.85) !important;
-          border-color: rgba(75, 85, 99, 0.2) !important;
+          border-bottom: none !important;
+          box-shadow: none !important;
         }
         .dark-mode-active nav span.text-gray-900,
         .dark-mode-active nav a.text-gray-700 {

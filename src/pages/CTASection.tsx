@@ -32,19 +32,19 @@ export default function CTASection() {
     <section ref={sectionRef} className="relative z-10 max-w-7xl mx-auto px-6 pb-20 overflow-hidden">
       <style>{`
         @keyframes slideFromLeft {
-          0% { transform: translateX(-100px); opacity: 0; }
+          0% { transform: translateX(-40px); opacity: 0; }
           100% { transform: translateX(0); opacity: 1; }
         }
         @keyframes slideFromRight {
-          0% { transform: translateX(100px); opacity: 0; }
+          0% { transform: translateX(40px); opacity: 0; }
           100% { transform: translateX(0); opacity: 1; }
         }
         @keyframes slideFromTop {
-          0% { transform: translateY(-50px); opacity: 0; }
+          0% { transform: translateY(-30px); opacity: 0; }
           100% { transform: translateY(0); opacity: 1; }
         }
         @keyframes slideFromBottom {
-          0% { transform: translateY(50px); opacity: 0; }
+          0% { transform: translateY(30px); opacity: 0; }
           100% { transform: translateY(0); opacity: 1; }
         }
 
@@ -62,7 +62,7 @@ export default function CTASection() {
         }
       `}</style>
 
-      <div className="rounded-3xl bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-600 px-8 py-8 sm:px-12 sm:py-10 shadow-xl shadow-indigo-900/10 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
+      <div className="rounded-3xl bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-600 px-8 py-8 sm:px-12 sm:py-10 shadow-xl shadow-indigo-900/10 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 overflow-hidden">
         <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-10 text-center md:text-left">
           {/* Heading: Left & Right slide-in word by word */}
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white leading-snug">

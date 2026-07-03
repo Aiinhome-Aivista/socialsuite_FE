@@ -16,7 +16,13 @@ const TiktokIcon = ({ className }: { className?: string }) => (
 
 const YoutubeIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" className={className} fill="currentColor">
-    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+  </svg>
+);
+
+const ThreadsIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 192 192" className={className} fill="currentColor">
+    <path d="M141.537 88.9883C140.71 88.5919 139.87 88.2104 139.019 87.8451C137.537 60.5382 122.616 44.905 97.5619 44.745C97.4484 44.7443 97.3355 44.7443 97.222 44.7443C82.2364 44.7443 69.7731 51.1409 62.102 62.7807L75.881 72.2328C81.6116 63.5383 90.6052 61.6848 97.2286 61.6848C97.3051 61.6848 97.3819 61.6848 97.4576 61.6855C105.707 61.7381 111.932 64.1366 115.961 68.814C118.893 72.2193 120.854 76.925 121.825 82.8638C114.511 81.6207 106.601 81.2385 98.145 81.7233C74.3247 83.0954 59.0111 96.9879 60.0396 116.292C60.5615 126.084 65.4397 134.508 73.775 140.011C80.8224 144.663 89.899 146.938 99.3323 146.423C111.79 145.74 121.563 140.987 128.381 132.296C133.559 125.696 136.834 117.143 138.28 106.366C144.217 109.949 148.617 114.664 151.047 120.332C155.179 129.967 155.42 145.8 142.501 158.708C131.182 170.016 117.576 174.908 97.0135 175.059C74.2042 174.89 56.9538 167.575 45.7381 153.317C35.2355 139.966 29.8077 120.682 29.6052 96C29.8077 71.3178 35.2355 52.0336 45.7381 38.6827C56.9538 24.4249 74.2039 17.11 97.0132 16.9405C119.988 17.1113 137.539 24.4614 149.184 38.788C154.894 45.8136 159.199 54.6488 162.037 64.9503L178.184 60.6422C174.744 47.9622 169.331 37.0357 161.965 27.974C147.036 9.60668 125.202 0.195148 97.0695 0H96.9569C68.8816 0.19447 47.2921 9.6418 32.7883 28.0793C19.8819 44.4864 13.2244 67.3157 13.0007 95.9325L13 96L13.0007 96.0675C13.2244 124.684 19.8819 147.514 32.7883 163.921C47.2921 182.358 68.8816 191.806 96.9569 192H97.0695C122.03 191.827 139.624 185.292 154.118 170.811C173.081 151.866 172.51 128.119 166.26 113.541C161.776 103.087 153.227 94.5962 141.537 88.9883ZM98.4405 129.507C88.0005 130.095 77.1544 125.409 76.6196 115.372C76.2232 107.93 81.9158 99.626 99.0812 98.6368C101.047 98.5234 102.976 98.468 104.871 98.468C111.106 98.468 116.939 99.0737 122.242 100.233C120.264 124.935 108.662 128.946 98.4405 129.507Z" />
   </svg>
 );
 
@@ -780,21 +786,21 @@ const CARDS: Float[] = [
     w: 170,
     delay: "0.1s",
     children: (
-      <div className="w-[150px] sm:w-[170px] rounded-2xl bg-white p-2.5 shadow-xl shadow-indigo-900/10 border border-gray-100 flex flex-col gap-1.5 text-left transition-all duration-350 hover:scale-[1.03] hover:shadow-indigo-900/15">
+      <div className="w-[150px] sm:w-[170px] rounded-2xl bg-gradient-to-br from-[#ff0000] to-[#cc0000] text-white p-2.5 shadow-xl shadow-red-900/20 border border-transparent flex flex-col gap-1.5 text-left transition-all duration-350 hover:scale-[1.03] hover:shadow-red-900/25">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1">
-            <YoutubeIcon className="h-3.5 w-3.5 text-[#ff0000] shrink-0" />
-            <span className="text-[8.5px] font-extrabold uppercase tracking-wider text-gray-500">YouTube AI</span>
+            <YoutubeIcon className="h-3.5 w-3.5 text-white shrink-0" />
+            <span className="text-[8.5px] font-extrabold uppercase tracking-wider text-white/95">YouTube AI</span>
           </div>
-          <span className="text-[7.5px] bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-200 font-bold px-1 py-0.5 rounded">AUTO</span>
+          <span className="text-[7.5px] bg-white/20 text-white font-bold px-1 py-0.5 rounded">AUTO</span>
         </div>
         <div
-          className="h-14 w-full rounded-lg bg-cover bg-center border border-gray-150"
+          className="h-14 w-full rounded-lg bg-cover bg-center border border-white/10"
           style={{ backgroundImage: `url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=240&auto=format&fit=crop&q=80')` }}
         />
         <div>
-          <h4 className="text-[9.5px] font-extrabold text-gray-900 leading-tight">Chapters & Tags</h4>
-          <p className="text-[8px] text-gray-500 font-medium mt-0.5">Automated queue</p>
+          <h4 className="text-[9.5px] font-extrabold text-white leading-tight">Chapters & Tags</h4>
+          <p className="text-[8px] text-white/85 font-medium mt-0.5">Automated queue</p>
         </div>
       </div>
     ),
@@ -805,18 +811,18 @@ const CARDS: Float[] = [
     w: 165,
     delay: "0.3s",
     children: (
-      <div className="w-[145px] sm:w-[165px] rounded-2xl bg-white p-2.5 shadow-xl shadow-indigo-900/10 border border-gray-100 flex flex-col gap-1.5 text-left transition-all duration-350 hover:scale-[1.03] hover:shadow-indigo-900/15">
+      <div className="w-[145px] sm:w-[165px] rounded-2xl bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] text-white p-2.5 shadow-xl shadow-pink-900/20 border border-transparent flex flex-col gap-1.5 text-left transition-all duration-350 hover:scale-[1.03] hover:shadow-pink-900/25">
         <div className="flex items-center gap-1">
-          <Instagram className="h-3.5 w-3.5 text-pink-600 shrink-0" />
-          <span className="text-[8.5px] font-extrabold uppercase tracking-wider text-gray-500">Instagram</span>
+          <Instagram className="h-3.5 w-3.5 text-white shrink-0" />
+          <span className="text-[8.5px] font-extrabold uppercase tracking-wider text-white/95">Instagram</span>
         </div>
         <div
-          className="h-16 w-full rounded-lg bg-cover bg-center border border-gray-150"
+          className="h-16 w-full rounded-lg bg-cover bg-center border border-white/10"
           style={{ backgroundImage: `url('https://images.unsplash.com/photo-1614741118887-7a4ee193a5fa?w=240&auto=format&fit=crop&q=80')` }}
         />
-        <div className="flex items-center justify-between text-[8px] text-gray-500 font-bold">
+        <div className="flex items-center justify-between text-[8px] text-white/90 font-bold">
           <span>+3.2k reach today</span>
-          <span className="text-pink-600 text-[7px.5]">★ VIRAL</span>
+          <span className="text-white text-[7.5px]">★ VIRAL</span>
         </div>
       </div>
     ),
@@ -827,34 +833,34 @@ const CARDS: Float[] = [
     w: 150,
     delay: "0.5s",
     children: (
-      <div className="w-[130px] sm:w-[150px] rounded-xl bg-white p-2.5 shadow-lg border border-gray-150 text-left transition-all duration-350 hover:scale-[1.03]">
+      <div className="w-[130px] sm:w-[150px] rounded-xl bg-gradient-to-br from-[#0077b5] to-[#005987] text-white p-2.5 shadow-lg border border-transparent text-left transition-all duration-350 hover:scale-[1.03]">
         <div className="flex items-center gap-1">
-          <Linkedin className="h-3.5 w-3.5 text-blue-800 fill-blue-800 shrink-0" />
-          <span className="text-[8px] font-extrabold text-gray-500 uppercase">LinkedIn</span>
+          <Linkedin className="h-3.5 w-3.5 text-white fill-white shrink-0" />
+          <span className="text-[8px] font-extrabold text-white/95 uppercase">LinkedIn</span>
         </div>
         <div className="mt-1">
-          <div className="text-[14px] font-black text-gray-900 tracking-tight leading-none">82% Replies</div>
-          <p className="text-[7.5px] text-emerald-600 font-bold mt-0.5">✓ Lead Engine</p>
+          <div className="text-[14px] font-black text-white tracking-tight leading-none">82% Replies</div>
+          <p className="text-[7.5px] text-emerald-300 font-bold mt-0.5">✓ Lead Engine</p>
         </div>
       </div>
     ),
   },
   {
     x: -165,
-    y: 47,
+    y: 56,
     w: 170,
     delay: "0.7s",
     children: (
-      <div className="w-[150px] sm:w-[170px] rounded-2xl bg-white p-2.5 shadow-xl shadow-indigo-900/10 border border-gray-100 flex flex-col gap-1.5 text-left transition-all duration-350 hover:scale-[1.03] hover:shadow-indigo-900/15">
+      <div className="w-[150px] sm:w-[170px] rounded-2xl bg-gradient-to-br from-neutral-900 to-neutral-800 text-white p-2.5 shadow-xl shadow-black/25 border border-transparent flex flex-col gap-1.5 text-left transition-all duration-350 hover:scale-[1.03] hover:shadow-black/35">
         <div className="flex items-center gap-1">
-          <Twitter className="h-3.5 w-3.5 text-black fill-black shrink-0" />
-          <span className="text-[8.5px] font-extrabold uppercase tracking-wider text-gray-500">X Threader</span>
+          <Twitter className="h-3.5 w-3.5 text-white fill-white shrink-0" />
+          <span className="text-[8.5px] font-extrabold uppercase tracking-wider text-white/95">X Threader</span>
         </div>
-        <p className="text-[8.5px] text-gray-800 leading-snug font-medium">
+        <p className="text-[8.5px] text-white/90 leading-snug font-medium">
           "Auto-compose X threads with media sync & auto-link queue."
         </p>
-        <div className="flex items-center justify-between text-[7.5px] text-gray-500 font-bold border-t border-gray-100 pt-1">
-          <span className="text-emerald-600">✓ Scheduled</span>
+        <div className="flex items-center justify-between text-[7.5px] text-white/85 font-bold border-t border-white/10 pt-1">
+          <span className="text-emerald-400">✓ Scheduled</span>
           <span>5 Posts</span>
         </div>
       </div>
@@ -881,46 +887,36 @@ const CARDS: Float[] = [
   {
     x: -230,
     y: 71,
-    w: 165,
+    w: 52,
     delay: "1.1s",
     children: (
-      <div className="w-[145px] sm:w-[165px] rounded-2xl bg-white p-2.5 shadow-xl shadow-indigo-900/10 border border-gray-100 flex flex-col gap-1.5 text-left transition-all duration-350 hover:scale-[1.03] hover:shadow-indigo-900/15">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1">
-            <PinterestIcon className="h-3.5 w-3.5 text-rose-600 fill-rose-600 shrink-0" />
-            <span className="text-[8.5px] font-extrabold uppercase tracking-wider text-gray-500">Pinterest</span>
-          </div>
-          <span className="text-[7.5px] bg-rose-50 text-rose-600 font-bold px-1 py-0.5 rounded">SYNC</span>
-        </div>
-        <div
-          className="h-14 w-full rounded-lg bg-cover bg-center border border-gray-150"
-          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=240&auto=format&fit=crop&q=80')` }}
-        />
-        <div>
-          <h4 className="text-[9.5px] font-extrabold text-gray-900 leading-tight">Board Automation</h4>
-          <p className="text-[8px] text-gray-500 font-medium mt-0.5">+820% saves</p>
-        </div>
+      <div className="w-[45px] h-[45px] sm:w-[52px] sm:h-[52px] rounded-full bg-black text-white flex items-center justify-center shadow-lg transition-all duration-350 hover:scale-110 hover:shadow-black/20">
+        <ThreadsIcon className="h-5.5 w-5.5 text-white shrink-0" />
       </div>
     ),
   },
   {
     x: 540,
     y: 58,
-    w: 170,
+    w: 165,
     delay: "1.3s",
     children: (
-      <div className="w-[150px] sm:w-[170px] rounded-2xl bg-gradient-to-br from-indigo-950 to-purple-900 p-2.5 shadow-xl shadow-indigo-900/20 text-white flex flex-col gap-1.5 text-left transition-all duration-350 hover:scale-[1.03] hover:shadow-indigo-900/15 border border-transparent">
-        <div className="flex items-center gap-1">
-          <BarChart2 className="h-3.5 w-3.5 text-indigo-400 shrink-0" />
-          <span className="text-[8.5px] font-bold uppercase tracking-wider opacity-85">Workspace</span>
+      <div className="w-[145px] sm:w-[165px] rounded-2xl bg-gradient-to-br from-[#e60023] to-[#b3001b] text-white p-2.5 shadow-xl shadow-red-900/20 border border-transparent flex flex-col gap-1.5 text-left transition-all duration-350 hover:scale-[1.03] hover:shadow-red-900/25">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1">
+            <PinterestIcon className="h-3.5 w-3.5 text-white fill-white shrink-0" />
+            <span className="text-[8.5px] font-extrabold uppercase tracking-wider text-white/95">Pinterest</span>
+          </div>
+          <span className="text-[7.5px] bg-white/20 text-white font-bold px-1 py-0.5 rounded">SYNC</span>
         </div>
-        <div className="flex items-end gap-1 my-0.5">
-          <span className="text-xl font-black text-white tracking-tight">+148%</span>
-          <span className="text-[8px] text-emerald-400 font-extrabold pb-0.5">★ conversion</span>
+        <div
+          className="h-14 w-full rounded-lg bg-cover bg-center border border-white/10"
+          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=240&auto=format&fit=crop&q=80')` }}
+        />
+        <div>
+          <h4 className="text-[9.5px] font-extrabold text-white leading-tight">Board Automation</h4>
+          <p className="text-[8px] text-white/85 font-medium mt-0.5">+820% saves</p>
         </div>
-        <p className="text-[8px] opacity-80 leading-normal">
-          Organic impressions up 2.4x using queue.
-        </p>
       </div>
     ),
   },
@@ -971,7 +967,7 @@ const CARDS: Float[] = [
   },
   {
     x: -80,
-    y: 62,
+    y: 42,
     w: 52,
     delay: "1.0s",
     children: (
@@ -1055,39 +1051,54 @@ export default function HeroShowcase({ isDark }: { isDark: boolean }) {
   }, []);
 
   return (
-    <section id="hero-showcase-section" className={`relative isolate overflow-hidden pt-0 pb-1 sm:pt-0.5 sm:pb-2 transition-all duration-[800ms] ease-in-out hero-section-transition ${isDark ? "bg-gradient-to-b from-slate-950 via-rose-900/25 to-slate-950 dark-mode-active" : "bg-gradient-to-b from-white via-pink-100/60 to-pink-100/40"}`}>
+    <section id="hero-showcase-section" className={`relative isolate overflow-hidden pt-0 pb-16 sm:pt-0 sm:pb-24 transition-all duration-[800ms] ease-in-out hero-section-transition ${isDark ? "bg-gradient-to-b from-slate-950 via-rose-900/25 to-slate-950 dark-mode-active" : "bg-gradient-to-b from-white via-pink-100/60 to-pink-100/40"}`}>
       <style>{`
-        @keyframes hero-float {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
+        @keyframes float-1 {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          50% { transform: translateY(-12px) rotate(0.6deg); }
         }
-        .hero-float { animation: hero-float 4.5s ease-in-out infinite; }
+        @keyframes float-2 {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          50% { transform: translateY(-8px) rotate(-0.5deg); }
+        }
+        @keyframes float-3 {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          50% { transform: translateY(-14px) rotate(0.4deg); }
+        }
+        @keyframes float-4 {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          50% { transform: translateY(-10px) rotate(-0.8deg); }
+        }
+        .hero-float-1 { animation: float-1 5.5s ease-in-out infinite; }
+        .hero-float-2 { animation: float-2 6.8s ease-in-out infinite; }
+        .hero-float-3 { animation: float-3 4.2s ease-in-out infinite; }
+        .hero-float-4 { animation: float-4 5.0s ease-in-out infinite; }
         @media (prefers-reduced-motion: reduce) {
-          .hero-float { animation: none; }
+          .hero-float-1, .hero-float-2, .hero-float-3, .hero-float-4 { animation: none; }
         }
         
         /* Dark Mode styles for floating cards and fallback cards */
         .hero-section-transition {
           transition: background-color 0.8s ease-in-out;
         }
-        .hero-float > div,
+        [class*="hero-float-"] > div,
         .lg\\:hidden > div > div {
           transition: background-color 0.8s ease, border-color 0.8s ease, color 0.8s ease, box-shadow 0.8s ease;
         }
-        .dark-mode-active .hero-float > div:not(.bg-gradient-to-br),
+        .dark-mode-active [class*="hero-float-"] > div:not(.bg-gradient-to-br),
         .dark-mode-active .lg\\:hidden > div > div:not(.bg-gradient-to-br) {
           background-color: #1e293b !important;
           border-color: #334155 !important;
           color: #f8fafc !important;
           box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.6), 0 0 15px 3px rgba(99, 102, 241, 0.15) !important;
         }
-        .dark-mode-active .hero-float > div .text-gray-900,
-        .dark-mode-active .hero-float > div .text-gray-800,
+        .dark-mode-active [class*="hero-float-"] > div .text-gray-900,
+        .dark-mode-active [class*="hero-float-"] > div .text-gray-800,
         .dark-mode-active .lg\\:hidden > div > div .text-gray-900,
         .dark-mode-active .lg\\:hidden > div > div .text-gray-800 {
           color: #f8fafc !important;
         }
-        .dark-mode-active .hero-float > div .text-gray-500,
+        .dark-mode-active [class*="hero-float-"] > div .text-gray-500,
         .dark-mode-active .lg\\:hidden > div > div .text-gray-500 {
           color: #94a3b8 !important;
         }
@@ -1120,7 +1131,7 @@ export default function HeroShowcase({ isDark }: { isDark: boolean }) {
 
       <div className="relative mx-auto max-w-5xl px-6 flex flex-col items-center gap-0">
 
-        <div className="relative text-center w-full select-none z-0  sm:-mt-4 mb-[-20px] sm:mb-[-40px] overflow-hidden">
+        <div className="relative text-center w-full select-none z-0  sm:-mt-2 mb-[-20px] sm:mb-[-40px] overflow-hidden">
           <span
             className="text-[9vw] sm:text-[8vw] font-black tracking-tighter uppercase bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-600 opacity-40 leading-none whitespace-nowrap inline-block"
             style={{
@@ -1163,7 +1174,7 @@ export default function HeroShowcase({ isDark }: { isDark: boolean }) {
                   className="absolute hidden lg:block"
                   style={outerStyle}
                 >
-                  <div className="hero-float" style={{ animationDelay: card.delay }}>
+                  <div className={`hero-float-${(i % 4) + 1}`} style={{ animationDelay: card.delay }}>
                     {card.children}
                   </div>
                 </div>
@@ -1176,7 +1187,7 @@ export default function HeroShowcase({ isDark }: { isDark: boolean }) {
           <span
             className="text-[9vw] sm:text-[8vw] font-black tracking-tighter uppercase bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-600 opacity-95 leading-none whitespace-nowrap inline-block"
             style={{
-              transform: `scaleX(1.35) translateX(${scrollY * 0.08}px)`,
+              transform: `scaleX(1.7) translateX(${scrollY * 0.08}px)`,
               transformOrigin: "center",
               transition: "transform 0.15s cubic-bezier(0.1, 0.8, 0.2, 1)"
             }}
